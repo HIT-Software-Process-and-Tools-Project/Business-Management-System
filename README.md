@@ -5,6 +5,7 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
 ## 1 项目环境配置
 
 1. 首次使用请clone本项目，之后checkout到`dev`分支，本地仓库中将出现最新的一次commit（下图中以gitkraken演示）
+
    ![image](https://user-images.githubusercontent.com/78716774/201571278-4239636a-c443-4e8c-ba72-601f3cc64807.png)
 
 2. IDEA会提示`Maven scripts found`或者在右侧边栏可以看到Maven，选择`Refresh all maven projects`即可
