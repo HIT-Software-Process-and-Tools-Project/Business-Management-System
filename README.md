@@ -19,5 +19,19 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
 
 5. 进入wms_web文件夹下以管理员身份打开cmd运行`npm install`，运行完会多出一个node_modules文件夹
 
-6. （连接云端数据库）
-
+6. 打开数据库连接，在`wms/src/main/resources/`下新建一个`application.yml`,填入以下代码（username和password换成自己数据库的；url中的端口号和数据库名demo改成自己的）：
+   ```
+   server:
+     port: 8090
+   
+   spring:
+     datasource:
+       url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+       driver-class-name: com.mysql.jdbc.Driver
+       username: root
+       password: 123456
+   
+   Logging:
+     level:
+       com.wms: debug
+   ```
