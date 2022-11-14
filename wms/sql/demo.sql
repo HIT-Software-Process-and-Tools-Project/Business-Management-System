@@ -11,11 +11,29 @@
  Target Server Version : 80031 (8.0.31)
  File Encoding         : 65001
 
- Date: 14/11/2022 22:06:05
+ Date: 15/11/2022 00:26:18
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for customer
+-- ----------------------------
+DROP TABLE IF EXISTS `customer`;
+CREATE TABLE `customer`  (
+  `id` int NOT NULL COMMENT '编号',
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT '姓名',
+  `gender` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT '性别',
+  `phone` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT '电话号码',
+  `address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT '地址',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of customer
+-- ----------------------------
+INSERT INTO `customer` VALUES (1, '张三', '1', '12345678901', '哈工大');
 
 -- ----------------------------
 -- Table structure for goods
@@ -26,21 +44,22 @@ CREATE TABLE `goods`  (
   `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '货名',
   `storage` int NOT NULL COMMENT '仓库',
   `goodsType` int NOT NULL COMMENT '分类',
+  `purchasePrice` decimal(10, 2) NULL DEFAULT NULL COMMENT '进货价',
   `wholesalePrice` decimal(10, 2) NULL DEFAULT NULL COMMENT '批发价',
   `retailPrice` decimal(10, 2) NULL DEFAULT NULL COMMENT '零售价',
   `count` int NULL DEFAULT NULL COMMENT '数量',
   `remark` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES (1, '铅笔', 1, 1, 2.00, 3.00, 55, NULL);
-INSERT INTO `goods` VALUES (2, '积木', 2, 2, 10.00, 15.00, 34, NULL);
-INSERT INTO `goods` VALUES (3, '苹果', 1, 7, 5.00, 7.50, 56, NULL);
-INSERT INTO `goods` VALUES (4, '牙刷', 1, 5, 3.00, 5.00, 10, NULL);
-INSERT INTO `goods` VALUES (5, '香蕉', 2, 7, 4.00, 7.00, 67, NULL);
+INSERT INTO `goods` VALUES (1, '铅笔', 1, 1, 1.00, 2.00, 3.00, 55, NULL);
+INSERT INTO `goods` VALUES (2, '积木', 2, 2, 9.00, 10.00, 15.00, 34, NULL);
+INSERT INTO `goods` VALUES (3, '苹果', 1, 7, 4.00, 5.00, 7.50, 56, NULL);
+INSERT INTO `goods` VALUES (4, '牙刷', 1, 5, 2.00, 3.00, 5.00, 10, NULL);
+INSERT INTO `goods` VALUES (5, '香蕉', 2, 7, 3.00, 4.00, 7.00, 67, NULL);
 
 -- ----------------------------
 -- Table structure for goodstype
@@ -51,7 +70,7 @@ CREATE TABLE `goodstype`  (
   `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '分类名',
   `remark` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of goodstype
@@ -80,7 +99,7 @@ CREATE TABLE `menu`  (
   `menuComponent` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   `menuIcon` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of menu
@@ -100,18 +119,19 @@ CREATE TABLE `record`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
   `goods` int NOT NULL COMMENT '货品id',
   `userId` int NULL DEFAULT NULL COMMENT '取货人/补货人',
-  `admin_id` int NULL DEFAULT NULL COMMENT '操作人id',
+  `admin_id` int NULL DEFAULT NULL COMMENT '操作人',
   `count` int NULL DEFAULT NULL COMMENT '数量',
+  `state` int NULL DEFAULT NULL COMMENT '订单状态 0保存，1已审核，2已收款，3已退货，4已进货',
   `createtime` datetime NULL DEFAULT NULL COMMENT '操作时间',
   `remark` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of record
 -- ----------------------------
-INSERT INTO `record` VALUES (1, 4, 1, 1, 2, '2022-11-12 15:14:51', NULL);
-INSERT INTO `record` VALUES (2, 2, 2, 1, 10, '2022-11-02 15:16:21', NULL);
+INSERT INTO `record` VALUES (1, 4, 1, 1, 2, 1, '2022-11-12 15:14:51', NULL);
+INSERT INTO `record` VALUES (2, 2, 2, 1, 10, 3, '2022-11-02 15:16:21', NULL);
 
 -- ----------------------------
 -- Table structure for storage
@@ -122,7 +142,7 @@ CREATE TABLE `storage`  (
   `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '仓库名',
   `remark` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of storage
@@ -142,10 +162,10 @@ CREATE TABLE `user`  (
   `age` int NULL DEFAULT NULL,
   `sex` int NULL DEFAULT NULL COMMENT '性别',
   `phone` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '电话',
-  `role_id` int NULL DEFAULT NULL COMMENT '⻆⾊ 0超级管理员，1管理员，2普通账号',
+  `role_id` int NULL DEFAULT NULL COMMENT '⻆⾊ 0超级管理员，1管理员，2店员',
   `isValid` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT 'Y' COMMENT '是否有效，Y有效，其他⽆效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
