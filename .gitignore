@@ -36,3 +36,4 @@ gen
 /wms/target/
 /wms_web/node_modules/
 application.yml
+pom.xml
