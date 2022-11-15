@@ -9,15 +9,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
 import com.wms.entity.Goods;
+import com.wms.entity.Goodstype;
 import com.wms.entity.Record;
 import com.wms.service.GoodsService;
 import com.wms.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -46,6 +43,7 @@ public class RecordController {
         String storage = (String)param.get("storage");
         String roleId = (String)param.get("roleId");
         String userId = (String)param.get("userId");
+        String state = (String)param.get("state");
 
         Page<Record> page = new Page();
         page.setCurrent(query.getPageNum());
@@ -55,7 +53,7 @@ public class RecordController {
         queryWrapper.apply(" a.goods=b.id and b.storage=c.id and b.goodsType=d.id ");
 
         if("2".equals(roleId)){
-           // queryWrapper.eq(Record::getUserid,userId);
+            // queryWrapper.eq(Record::getUserid,userId);
             queryWrapper.apply(" a.userId= "+userId);
         }
 
@@ -79,14 +77,28 @@ public class RecordController {
         int n = record.getCount();
         //出库
         if("2".equals(record.getAction())){
-             n = -n;
-             record.setCount(n);
+            //n = -n;
+            record.setCount(n);
+            int num = goods.getCount()-n;
+            goods.setCount(num);
         }
-
-        int num = goods.getCount()+n;
-        goods.setCount(num);
+        else{
+            int num = goods.getCount()+n;
+            goods.setCount(num);
+        }
         goodsService.updateById(goods);
 
         return recordService.save(record)?Result.suc():Result.fail();
     }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody Record record){
+        return recordService.updateById(record)?Result.suc():Result.fail();
+    }
+
+    @GetMapping("/del")
+    public Result del(@RequestParam String id){
+        return recordService.removeById(id)?Result.suc():Result.fail();
+    }
 }
+

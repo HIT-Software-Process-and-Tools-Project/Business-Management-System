@@ -13,12 +13,14 @@
     <bytecodeTargetLevel>
       <module name="demo" target="11" />
       <module name="wms" target="1.8" />
+      <module name="wms (1)" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo" options="-parameters" />
       <module name="wms" options="-parameters" />
+      <module name="wms (1)" options="-parameters" />
     </option>
   </component>
 </project>
