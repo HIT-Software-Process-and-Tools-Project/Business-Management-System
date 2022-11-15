@@ -53,6 +53,9 @@ public class Record implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    @ApiModelProperty(value = "状态")
+    private String state;
+
     @TableField(exist = false)
     private String action;
 }
