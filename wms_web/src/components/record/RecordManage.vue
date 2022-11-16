@@ -57,11 +57,11 @@
                       (scope.row.state == 3 ? '已退货' :'已进货')))}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" width="265">
         <template  slot-scope="scope">
-          <el-button type="text" size="small" @click="mod(scope.row,0)">审核</el-button>
-          <el-button type="text" size="small" @click="mod(scope.row,1)">收款</el-button>
-          <el-button type="text" size="small" @click="mod(scope.row,2)">退货</el-button>
+          <el-button type="primary" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">审核</el-button>
+          <el-button type="success" style="margin-left: 5px;" size="small" @click="mod(scope.row,1)">收款</el-button>
+          <el-button type="warning" style="margin-left: 5px;" size="small" @click="mod(scope.row,2)">退货</el-button>
           <!--                <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>-->
           <el-popconfirm
               title="确定删除吗？"
