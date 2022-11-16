@@ -43,6 +43,12 @@
       </el-table-column>
       <el-table-column prop="goodstype" label="分类" width="100" :formatter="formatGoodstype">
       </el-table-column>
+      <el-table-column prop="purchaseprice" label="进货价" width="100">
+      </el-table-column>
+      <el-table-column prop="wholesaleprice" label="批发价" width="100">
+      </el-table-column>
+      <el-table-column prop="retailprice" label="零售价" width="100">
+      </el-table-column>
       <el-table-column prop="count" label="数量" width="100">
       </el-table-column>
       <el-table-column prop="remark" label="备注">
@@ -82,6 +88,11 @@
             <el-input v-model="form.name"></el-input>
           </el-col>
         </el-form-item>
+        <el-form-item label="品牌" prop="name">
+          <el-col :span="20">
+            <el-input v-model="form.name"></el-input>
+          </el-col>
+        </el-form-item>
         <el-form-item label="仓库" prop="storage">
           <el-col :span="20">
             <el-select v-model="form.storage" placeholder="请选择仓库" style="margin-left: 5px;">
@@ -105,6 +116,21 @@
                   :value="item.id">
               </el-option>
             </el-select>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="进货价" prop="name">
+          <el-col :span="20">
+            <el-input v-model="form.name"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="批发价" prop="name">
+        <el-col :span="20">
+          <el-input v-model="form.name"></el-input>
+        </el-col>
+      </el-form-item>
+        <el-form-item label="零售价" prop="name">
+          <el-col :span="20">
+            <el-input v-model="form.name"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="数量" prop="count">
