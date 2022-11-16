@@ -31,23 +31,23 @@
     >
       <el-table-column prop="id" label="ID" width="60">
       </el-table-column>
-      <el-table-column prop="goodsname" label="物品名" width="120">
+      <el-table-column prop="goodsname" label="物品名" width="80">
       </el-table-column>
       <el-table-column prop="storagename" label="仓库" width="120">
       </el-table-column>
       <el-table-column prop="goodstypename" label="分类" width="80">
       </el-table-column>
-      <el-table-column prop="adminname" label="操作人" width="80">
+      <el-table-column prop="adminname" label="操作人" width="90">
       </el-table-column>
-      <el-table-column prop="username" label="申请人" width="80">
+      <el-table-column prop="username" label="申请人" width="90">
       </el-table-column>
-      <el-table-column prop="count" label="数量" width="120">
+      <el-table-column prop="count" label="数量" width="50">
       </el-table-column>
       <el-table-column prop="createtime" label="操作时间" width="180">
       </el-table-column>
       <el-table-column prop="remark" label="备注">
       </el-table-column>
-      <el-table-column prop="state" label="状态">
+      <el-table-column fixed="right" prop="state" label="状态"  width="75">
         <template slot-scope="scope">
           <el-tag
               :type="scope.row.state == 0 ? 'warning' : (scope.row.state == 1 ? 'primary' : (scope.row.state == 2 ? 'info' : (scope.row.state == 3 ? 'danger' : 'success')))"
