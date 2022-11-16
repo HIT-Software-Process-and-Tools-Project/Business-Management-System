@@ -66,7 +66,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
+    <el-pagination style="text-align:right"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageNum"
