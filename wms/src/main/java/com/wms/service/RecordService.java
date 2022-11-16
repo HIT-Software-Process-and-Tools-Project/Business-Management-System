@@ -12,8 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author wms
- * @since 2022-10-16
- */
+ * @since 2022-101
 public interface RecordService extends IService<Record> {
 
     IPage pageCC(IPage<Record> page, Wrapper wrapper);

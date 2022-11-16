@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
 import com.wms.entity.Goods;
-import com.wms.entity.Goods;
 import com.wms.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author wms
- * @since 2022-10-15
+ * @since 2022-11-15
  */
 @RestController
 @RequestMapping("/goods")

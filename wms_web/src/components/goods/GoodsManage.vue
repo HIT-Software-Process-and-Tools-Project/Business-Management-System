@@ -21,11 +21,11 @@
       </el-select>
 
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
-      <el-button type="success" @click="resetParam">重置</el-button>
+      <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
 
       <el-button type="primary" style="margin-left: 5px;" @click="add" v-if="user.roleId!=2">新增</el-button>
-      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>
-      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>
+<!--      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>-->
+<!--      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>-->
     </div>
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
@@ -35,13 +35,15 @@
     >
       <el-table-column prop="id" label="ID" width="60">
       </el-table-column>
-      <el-table-column prop="name" label="物品名" width="180">
+      <el-table-column prop="name" label="货品名" width="100">
       </el-table-column>
-      <el-table-column prop="storage" label="仓库" width="180" :formatter="formatStorage">
+      <el-table-column prop="brand" label="品牌" width="100">
       </el-table-column>
-      <el-table-column prop="goodstype" label="分类" width="180" :formatter="formatGoodstype">
+      <el-table-column prop="storage" label="仓库" width="100" :formatter="formatStorage">
       </el-table-column>
-      <el-table-column prop="count" label="数量" width="180">
+      <el-table-column prop="goodstype" label="分类" width="100" :formatter="formatGoodstype">
+      </el-table-column>
+      <el-table-column prop="count" label="数量" width="100">
       </el-table-column>
       <el-table-column prop="remark" label="备注">
       </el-table-column>
@@ -69,13 +71,13 @@
     </el-pagination>
 
     <el-dialog
-        title="物品维护"
+        title="货品管理"
         :visible.sync="centerDialogVisible"
         width="30%"
         center>
 
       <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-        <el-form-item label="物品名" prop="name">
+        <el-form-item label="货品名称" prop="name">
           <el-col :span="20">
             <el-input v-model="form.name"></el-input>
           </el-col>
@@ -117,9 +119,9 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="save">确 定</el-button>
-  </span>
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </span>
     </el-dialog>
 
     <el-dialog
@@ -163,9 +165,9 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="inDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="doInGoods">确 定</el-button>
-  </span>
+        <el-button @click="inDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="doInGoods">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
