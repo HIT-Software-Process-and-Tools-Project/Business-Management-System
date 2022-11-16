@@ -18,7 +18,7 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
 
 
 4. 进入wms_web文件夹下以管理员身份打开cmd运行`npm install`，运行完会多出一个node_modules文件夹；然后运行`npm install axios --save`；然后运行`npm i 
-   vue-router@3.5.4`
+   vue-router@3.5.4`；然后运行`npm i vuex@3.0.0`
 
 5. 打开数据库连接，在`wms/src/main/resources/`下新建一个`application.yml`,填入以下代码（username和password换成自己数据库的；url中的端口号和数据库名demo改成自己的）：
    ```
