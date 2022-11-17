@@ -48,7 +48,7 @@ public class Goods implements Serializable {
     private String wholesaleprice;
 
     @ApiModelProperty(value = "零售价")
-    private Integer retailprice;
+    private String retailprice;
 
     @ApiModelProperty(value = "数量")
     private Integer count;

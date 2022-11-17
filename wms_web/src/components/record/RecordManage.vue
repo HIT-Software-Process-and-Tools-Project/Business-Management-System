@@ -44,7 +44,7 @@
 <!--      </el-table-column>-->
 <!--      <el-table-column prop="goodstypename" label="分类" width="80">-->
 <!--      </el-table-column>-->
-      <el-table-column prop="customer" label="客户ID" width="80">
+      <el-table-column prop="username" label="客户ID" width="80">
       </el-table-column>
       <el-table-column prop="adminname" label="操作人" width="90">
       </el-table-column>
