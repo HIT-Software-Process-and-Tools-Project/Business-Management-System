@@ -40,6 +40,7 @@ public class RecordController {
         HashMap param = query.getParam();
         String name = (String)param.get("name");
         String goodstype = (String)param.get("goodstype");
+        String iswholesale = (String)param.get("iswholesale");
         String storage = (String)param.get("storage");
         String roleId = (String)param.get("roleId");
         String userId = (String)param.get("userId");

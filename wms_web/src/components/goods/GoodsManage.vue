@@ -240,6 +240,7 @@ export default {
       form1:{
         goods:'',
         goodsname:'',
+        iswholesale:'',
         count:'',
         username:'',
         userid:'',

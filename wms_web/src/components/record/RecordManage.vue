@@ -29,9 +29,14 @@
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
     >
-      <el-table-column prop="id" label="订单ID" width="80">
+      <el-table-column prop="id" label="订单ID" width="60">
       </el-table-column>
-      <el-table-column prop="iswholesale" label="订单类型" width="80">
+      <el-table-column prop="iswholesale" label="订单类型" width="90">
+        <template slot-scope="scope">
+          <el-tag
+              :type="scope.row.state == 0 ? 'danger' : 'success'"
+              disable-transitions>{{scope.row.state == 0 ? '零售订单' : '批发订单'}}</el-tag>
+        </template>
       </el-table-column>
 <!--      <el-table-column prop="goodsname" label="物品名" width="80">-->
 <!--      </el-table-column>-->
@@ -115,12 +120,12 @@ export default {
       form:{
         id:'',
         iswholesale:'',
-        // name:'',
+        name:'',
         storage:'',
         goodstype:'',
         count:'',
         remark:'',
-        state:''
+        state:'',
       },
     }
   },
