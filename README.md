@@ -14,8 +14,6 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
 
    ![image](https://user-images.githubusercontent.com/78716774/201572357-73c7b3f5-57c0-4979-b7dc-d7dfa94279f9.png)
    ![image](https://user-images.githubusercontent.com/78716774/201572369-5085c95e-f8c6-484b-8950-6068e08ad84e.png)
-   ![image](https://user-images.githubusercontent.com/78716774/201686116-22e610ca-6d5b-4ba0-ab80-7dc10d768f30.png)
-
 
 4. 进入wms_web文件夹下以管理员身份打开cmd运行`npm install`，运行完会多出一个node_modules文件夹；然后运行`npm install axios --save`；然后运行`npm i 
    vue-router@3.5.4`；然后运行`npm i vuex@3.0.0`
@@ -36,6 +34,7 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
      level:
        com.wms: debug
    ```
+   推荐在项目中配置数据库：[IntelliJ IDEA 如何配置MySQL数据库](https://blog.csdn.net/zhao_66/article/details/103806350)
 
 6. 运行整个项目（第3步的全部配置都跑起来），这里试着在navicat等上面查看自己的连接下是否多了一个名为`demo`的数据库，方便自己后续开发时使用。
 

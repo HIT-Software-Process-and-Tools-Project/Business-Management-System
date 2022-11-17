@@ -35,15 +35,15 @@
                             disable-transitions>{{scope.row.sex === 1 ? '男' : '女'}}</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="roleId" label="角色" width="120">
-                <template slot-scope="scope">
-                    <el-tag
-                            :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : 'success')"
-                            disable-transitions>{{scope.row.roleId === 0 ? '经理' :
-                        (scope.row.roleId === 1 ? '管理员' :
-                            (scope.row.roleId === 2 ? '批发用户' :'零售用户'))}}</el-tag>
-                </template>
-            </el-table-column>
+<!--            <el-table-column prop="roleId" label="角色" width="120">-->
+<!--                <template slot-scope="scope">-->
+<!--                    <el-tag-->
+<!--                            :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : 'success')"-->
+<!--                            disable-transitions>{{scope.row.roleId === 0 ? '经理' :-->
+<!--                        (scope.row.roleId === 1 ? '管理员' :-->
+<!--                            (scope.row.roleId === 2 ? '批发用户' :'零售用户'))}}</el-tag>-->
+<!--                </template>-->
+<!--            </el-table-column>-->
             <el-table-column prop="phone" label="电话" width="180">
             </el-table-column>
             <el-table-column prop="operate" label="操作">
