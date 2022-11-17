@@ -32,6 +32,9 @@ public class Record implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @ApiModelProperty(value = "是否为批发订单 1为是，0为否")
+    private Integer iswholesale;
+
     @ApiModelProperty(value = "货品id")
     private Integer goods;
 

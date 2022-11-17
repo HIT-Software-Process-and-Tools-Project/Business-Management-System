@@ -29,7 +29,9 @@
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
     >
-      <el-table-column prop="id" label="销售单ID" width="80">
+      <el-table-column prop="id" label="订单ID" width="80">
+      </el-table-column>
+      <el-table-column prop="iswholesale" label="订单类型" width="80">
       </el-table-column>
 <!--      <el-table-column prop="goodsname" label="物品名" width="80">-->
 <!--      </el-table-column>-->
@@ -37,17 +39,19 @@
 <!--      </el-table-column>-->
 <!--      <el-table-column prop="goodstypename" label="分类" width="80">-->
 <!--      </el-table-column>-->
-      <el-table-column prop="customer" label="客户" width="90">
+      <el-table-column prop="customer" label="客户ID" width="80">
       </el-table-column>
       <el-table-column prop="adminname" label="操作人" width="90">
       </el-table-column>
-      <el-table-column prop="username" label="申请人" width="90">
-      </el-table-column>
-      <el-table-column prop="count" label="数量" width="50">
+<!--      <el-table-column prop="username" label="申请人" width="90">-->
+<!--      </el-table-column>-->
+<!--      <el-table-column prop="count" label="数量" width="50">-->
+<!--      </el-table-column>-->
+      <el-table-column prop="totalprice" label="总金额" width="70">
       </el-table-column>
       <el-table-column prop="profit" label="毛利润" width="60">
       </el-table-column>
-      <el-table-column prop="createtime" label="操作时间" width="180">
+      <el-table-column prop="createtime" label="创建订单时间" width="160">
       </el-table-column>
       <el-table-column prop="remark" label="备注">
       </el-table-column>
@@ -110,7 +114,8 @@ export default {
       centerDialogVisible:false,
       form:{
         id:'',
-        name:'',
+        iswholesale:'',
+        // name:'',
         storage:'',
         goodstype:'',
         count:'',
@@ -143,14 +148,13 @@ export default {
           this.$axios.post(this.$httpUrl+'/record/update',this.form).then(res=>res.data).then(res=>{
             console.log(res)
             if(res.code==200){
-
               this.$message({
                 message: '操作成功！',
                 type: 'success'
               });
               this.centerDialogVisible = false
               this.loadPost()
-              this. resetForm()
+              this.resetForm()
             }else{
               this.$message({
                 message: '操作失败！',
