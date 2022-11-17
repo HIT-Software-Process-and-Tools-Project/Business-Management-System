@@ -26,7 +26,7 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
    spring:
      datasource:
        url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
-       driver-class-name: com.mysql.jdbc.Driver
+       driver-class-name: com.mysql.cj.jdbc.Driver
        username: root
        password: 123456
    
