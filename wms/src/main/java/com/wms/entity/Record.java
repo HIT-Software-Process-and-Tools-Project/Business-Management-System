@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author wms
- * @since 2022-10-16
+ * @since 2022-11-15
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -31,6 +31,9 @@ public class Record implements Serializable {
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    @ApiModelProperty(value = "是否为批发订单 1为是，0为否")
+    private Integer iswholesale;
 
     @ApiModelProperty(value = "货品id")
     private Integer goods;

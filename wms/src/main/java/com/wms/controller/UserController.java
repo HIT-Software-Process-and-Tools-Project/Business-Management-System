@@ -185,4 +185,34 @@ public class UserController {
 
         return Result.suc(result.getRecords(),result.getTotal());
     }
+
+    @PostMapping("/listPageC2")
+    public Result listPageC2(@RequestBody QueryPageParam query){
+        HashMap param = query.getParam();
+        String name = (String)param.get("name");
+        String sex = (String)param.get("sex");
+        String roleId = (String)param.get("roleId");
+
+        Page<User> page = new Page();
+        page.setCurrent(query.getPageNum());
+        page.setSize(query.getPageSize());
+
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper();
+        if(StringUtils.isNotBlank(name) && !"null".equals(name)){
+            lambdaQueryWrapper.like(User::getName,name);
+        }
+        if(StringUtils.isNotBlank(sex)){
+            lambdaQueryWrapper.eq(User::getSex,sex);
+        }
+        if(StringUtils.isNotBlank(roleId)){
+            lambdaQueryWrapper.eq(User::getRoleId,roleId).or().eq(User::getRoleId,query.getI());
+        }
+
+        //IPage result = userService.pageC(page);
+        IPage result = userService.pageCC(page,lambdaQueryWrapper);
+
+        System.out.println("total=="+result.getTotal());
+
+        return Result.suc(result.getRecords(),result.getTotal());
+    }
 }

@@ -38,17 +38,18 @@
             </el-table-column>
             <el-table-column prop="roleId" label="角色" width="120">
                 <template slot-scope="scope">
-                    <el-tag
-                            :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : 'success')"
-                            disable-transitions>{{scope.row.roleId === 0 ? '超级管理员' :
-                        (scope.row.roleId === 1 ? '管理员' :
-                            (scope.row.roleId === 2 ? '批发用户' :'零售用户'))}}</el-tag>
+                  <el-tag
+                      :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : (scope.row.roleId === 2 ? 'warning' : 'success'))"
+                      disable-transitions>{{scope.row.roleId === 0 ? '经理' :
+                      (scope.row.roleId === 1 ? '仓库管理员' :
+                          (scope.row.roleId === 2 ? '售货员' :
+                              (scope.row.roleId === 3 ? '批发客户' : '零售客户')))}}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="phone" label="电话">
             </el-table-column>
         </el-table>
-        <el-pagination
+        <el-pagination style="margin-left: 5px;"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageNum"
@@ -326,7 +327,7 @@
                     param:{
                         name:this.name,
                         sex:this.sex,
-                        roleId:'2'
+                        roleId:'3'
                     }
                 }).then(res=>res.data).then(res=>{
                     console.log(res)
