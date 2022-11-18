@@ -15,4 +15,6 @@ public class QueryPageParam {
 
     private HashMap param = new HashMap();
 
+    private String i="5";
+
 }

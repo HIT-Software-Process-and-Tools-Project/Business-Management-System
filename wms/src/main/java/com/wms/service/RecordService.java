@@ -6,13 +6,13 @@ import com.wms.entity.Goods;
 import com.wms.entity.Record;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-/**
+/*
  * <p>
  *  服务类
  * </p>
  *
  * @author wms
- * @since 2022-10-16
+ * @since 2022-10-15
  */
 public interface RecordService extends IService<Record> {
 
