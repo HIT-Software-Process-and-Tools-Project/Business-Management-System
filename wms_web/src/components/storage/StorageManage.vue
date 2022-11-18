@@ -49,7 +49,7 @@
         <template slot-scope="scope">
           <el-button size="small" type="success" @click="mod(scope.row)">库存盘点</el-button>
           <el-popconfirm
-              title="确定删除吗？"
+              title="确定出库吗？"
               @confirm="del(scope.row.id)"
               style="margin-left: 5px;"
           >
