@@ -24,7 +24,7 @@ import java.util.HashMap;
  * </p>
  *
  * @author wms
- * @since 2022-10-16
+ * @since 2022-11-15
  */
 @RestController
 @RequestMapping("/record")
@@ -40,6 +40,7 @@ public class RecordController {
         HashMap param = query.getParam();
         String name = (String)param.get("name");
         String goodstype = (String)param.get("goodstype");
+        String iswholesale = (String)param.get("iswholesale");
         String storage = (String)param.get("storage");
         String roleId = (String)param.get("roleId");
         String userId = (String)param.get("userId");

@@ -60,7 +60,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination
+        <el-pagination style="margin-left: 5px;"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageNum"

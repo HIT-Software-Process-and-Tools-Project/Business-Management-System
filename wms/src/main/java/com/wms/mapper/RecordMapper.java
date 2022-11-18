@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Param;
  * </p>
  *
  * @author wms
- * @since 2022-10-16
+ * @since 2022-11-16
  */
 @Mapper
 public interface RecordMapper extends BaseMapper<Record> {
