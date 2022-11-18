@@ -9,6 +9,8 @@ import com.wms.entity.Storage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -20,4 +22,20 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface GoodstypeMapper extends BaseMapper<Goodstype> {
     IPage pageCC(IPage<Goodstype> page, @Param(Constants.WRAPPER) Wrapper wrapper);
+
+    Integer insertGoodstype(Goodstype goodstype);
+
+    Integer updateGoodstype(Goodstype goodstype);
+
+    Integer updateGoodsCost(Goodstype goodstype);
+
+    Goodstype queryGoodstypeByName(String name);
+
+    Goodstype queryGoodstypeByGid(Long g_id);
+
+    Integer deleteGoodstypeByGid(Long g_id);
+
+    List<Goodstype> queryGoodstypeList();
+
+    Storage queryStorageById(Integer i_id);
 }

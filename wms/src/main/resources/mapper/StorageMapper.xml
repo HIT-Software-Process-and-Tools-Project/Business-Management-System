@@ -5,6 +5,80 @@
     <select id="pageCC" resultType="com.wms.entity.Storage">
         select * from storage ${ew.customSqlSegment}
     </select>
+
+    <select id="queryWarehouseList" resultType="Storage">
+        select storage_list.il_id, storage_list.storage_name
+        from storage_list
+    </select>
+    <insert id="insertStorageWithGoodName" parameterType="Storage">
+        insert into storage(g_id, quantity, quality, il_id)
+        select goods_info.g_id, #{quantity}, #{quality}, #{il_id}
+        from goods_info
+        where goods_info.name = #{name}
+    </insert>
+
+    <select id="queryStorageById" parameterType="java.lang.Integer" resultType="Storage">
+        select storage.i_id, storage.g_id, storage.quantity, storage.quality, goods_info.name, storage_list.storage_name
+        from storage, goods_info, storage_list
+        where storage.i_id = #{i_id} and goods_info.g_id = storage.g_id and storage_list.il_id = storage.il_id
+    </select>
+
+    <select id="selectStorageByName" parameterType="java.lang.String" resultType="Storage">
+        select storage.i_id, storage.g_id, storage.quantity, storage.quality, storage.il_id
+        from goods_info, storage
+        where storage.g_id = goods_info.g_id and goods_info.name = #{name}
+    </select>
+    <delete id="deleteStorageByIId" parameterType="java.lang.Integer">
+        delete
+        from storage
+        where storage.i_id = #{i_id}
+    </delete>
+    <update id="updateStorage" parameterType="Storage">
+        update storage
+        set quantity = #{quantity},
+            quality = #{quality}
+        where i_id = #{i_id}
+    </update>
+    <update id="mergeStorage" parameterType="Storage">
+        update storage, goods_info
+        set storage.quantity = #{quantity} + storage.quantity, storage.quality = #{quality}
+        where storage.g_id = goods_info.g_id and goods_info.name = #{name} and storage.il_id = #{il_id}
+    </update>
+
+    <insert id="insertStorage" parameterType="Storage">
+        insert into storage(g_id, quantity, quality, il_id)
+            value (#{g_id}, #{quantity}, #{quality}, #{il_id})
+    </insert>
+    <delete id="deleteStorageByGid" parameterType="java.lang.Long">
+        delete
+        from storage
+        where g_id = #{g_id}
+    </delete>
+    <select id="queryStorageByGid" parameterType="java.lang.Long" resultType="Storage">
+        select i_id, g_id, quantity, quality
+        from storage
+        where g_id = #{g_id}
+    </select>
+    <select id="queryStorageList" resultType="Storage">
+        select i_id, g_id, quantity, quality
+        from storage
+    </select>
+    <select id="queryStorageWithGnameList" resultType="Storage">
+        select goods_info.name, storage.quality, storage.i_id, storage.quantity, storage.g_id, storage_list.storage_name, storage.il_id,
+               goods_info.retail_price, goods_info.cost from goods_info, storage, storage_list where storage.g_id = goods_info.g_id and storage_list.il_id = storage.il_id
+    </select>
+    <select id="queryStorageByIdAndIlID" resultType="Inventory" parameterType="java.lang.Integer">
+        select goods_info.name, storage.quality, storage.i_id, storage.quantity, storage.g_id, storage_list.storage_name, storage.il_id,
+               goods_info.retail_price, goods_info.cost from goods_info, storage, storage_list
+        where storage.g_id = goods_info.g_id and storage_list.il_id = inventory.il_id and
+            storage.g_id = #{g_id} and storage.il_id = #{il_id}
+    </select>
+
+    <select id="queryWarehouseByIlID" resultType="Storage" parameterType="java.lang.Integer">
+        select storage_list.storage_name, storage_list.il_id
+        from storage_list
+        where storage_list.il_id = #{il_id}
+    </select>
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.wms.entity.Storage">
         <id column="id" property="id" />

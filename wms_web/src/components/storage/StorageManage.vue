@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>
     <div style="margin-bottom: 5px;">
       <el-input v-model="name" placeholder="请输入物品名" suffix-icon="el-icon-search" style="width: 200px;"

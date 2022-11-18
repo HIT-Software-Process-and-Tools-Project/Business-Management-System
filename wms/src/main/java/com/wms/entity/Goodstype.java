@@ -35,5 +35,12 @@ public class Goodstype implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    private Long g_id;
+    private String gtname;
+    private Double cost;
+    private Double retail_price;
+    private Double trade_price;
+    private String description;
+
 
 }

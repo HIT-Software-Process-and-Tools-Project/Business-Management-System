@@ -33,5 +33,16 @@ public class Storage implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    private Integer i_id;
+    private Long g_id;
+    private Integer quantity;
+    private String quality;
+    private String sname;
+    private Double retail_price;
+    private Double cost;
+    private String storage_name;
+    private String storage_info;
+    private Integer il_id;
+    private Integer storage_prior;
 
 }
