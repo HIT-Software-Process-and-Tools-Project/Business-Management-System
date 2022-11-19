@@ -19,6 +19,14 @@
             :value="item.id">
         </el-option>
       </el-select>
+      <el-select v-model="brand" placeholder="请选择品牌" style="margin-left: 5px;">
+        <el-option
+            v-for="item in brandData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+      </el-select>
 
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
@@ -37,7 +45,7 @@
       </el-table-column>
       <el-table-column prop="name" label="货品名" width="100">
       </el-table-column>
-      <el-table-column prop="brand" label="品牌" width="100">
+      <el-table-column prop="brand" label="品牌" width="100" :formatter="formatBrand">
       </el-table-column>
       <el-table-column prop="storage" label="仓库" width="100" :formatter="formatStorage">
       </el-table-column>
@@ -90,7 +98,15 @@
         </el-form-item>
         <el-form-item label="品牌" prop="name">
           <el-col :span="20">
-            <el-input v-model="form.brand"></el-input>
+            <el-select v-model="form.brand" placeholder="请选择品牌" style="margin-left: 5px;">
+              <el-option
+                  v-for="item in brandData"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+              </el-option>
+            </el-select>
+
           </el-col>
         </el-form-item>
         <el-form-item label="仓库" prop="storage">
@@ -215,6 +231,7 @@ export default {
 
     return {
       user : JSON.parse(sessionStorage.getItem('CurUser')),
+      brandData:[],
       storageData:[],
       goodstypeData:[],
       tableData: [],
@@ -224,6 +241,7 @@ export default {
       name:'',
       storage:'',
       goodstype:'',
+      brand:'',
       centerDialogVisible:false,
       inDialogVisible:false,
       innerVisible:false,
@@ -266,11 +284,15 @@ export default {
         goodstype:[
           {required: true, message: '请选择分类', trigger: 'blur'}
         ],
+        brand:[
+          {required: true, message: '请选择品牌', trigger: 'blur'}
+        ],
         count: [
           {required: true, message: '请输入数量', trigger: 'blur'},
           {pattern: /^([1-9][0-9]*){1,4}$/,message: '数量必须为正整数字',trigger: "blur"},
           {validator:checkCount,trigger: 'blur'}
         ],
+
       }
     }
   },
@@ -298,6 +320,13 @@ export default {
     formatGoodstype(row){
       let temp =  this.goodstypeData.find(item=>{
         return item.id == row.goodstype
+      })
+
+      return temp && temp.name
+    },
+    formatBrand(){
+      let temp =  this.brandData.find(item=>{
+        return item.id == row.brand
       })
 
       return temp && temp.name
@@ -461,7 +490,7 @@ export default {
           });
           this.inDialogVisible = false
           this.loadPost()
-          this. resetInForm()
+          this.resetInForm()
         }else{
           this.$message({
             message: '操作失败！',
@@ -526,13 +555,23 @@ export default {
         }else{
           alert('获取数据失败')
         }
-
+      })
+    },
+    loadBrand(){
+      this.$axios.get(this.$httpUrl+'/brand/list').then(res=>res.data).then(res=>{
+        console.log(res)
+        if(res.code==200){
+          this.brandData=res.data
+        }else{
+          alert('获取数据失败')
+        }
       })
     }
   },
   beforeMount() {
     this.loadStorage()
     this.loadGoodstype()
+    this.loadBrand()
     this.loadPost()
 
   }

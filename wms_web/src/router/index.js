@@ -20,22 +20,22 @@ const routes = [
                 },
                 component:()=>import('../components/Home')
             },
-            // {
-            //     path:'/Admin',
-            //     name:'admin',
-            //     meta:{
-            //         title:'管理员管理'
-            //     },
-            //     component:()=>import('../components/admin/AdminManage.vue')
-            // },
-            // {
-            //     path:'/User',
-            //     name:'user',
-            //     meta:{
-            //         title:'用户管理'
-            //     },
-            //     component:()=>import('../components/user/UserManage.vue')
-            // },
+            {
+                path:'/Admin',
+                name:'admin',
+                meta:{
+                    title:'管理员管理'
+                },
+                component:()=>import('../components/admin/AdminManage.vue')
+            },
+            {
+                path:'/User',
+                name:'user',
+                meta:{
+                    title:'用户管理'
+                },
+                component:()=>import('../components/user/UserManage.vue')
+            },
         ]
     }
 ]

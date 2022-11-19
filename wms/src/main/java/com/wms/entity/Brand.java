@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wms
@@ -19,8 +19,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Goods对象", description="")
-public class Goods implements Serializable {
+@ApiModel(value="Brand对象", description="")
+public class Brand implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,33 +28,13 @@ public class Goods implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "货名")
+    @ApiModelProperty(value = "品牌名")
     private String name;
 
-    @ApiModelProperty(value = "品牌名")
-    private Integer brand;
-
-    @ApiModelProperty(value = "仓库")
-    private Integer storage;
-
-    @ApiModelProperty(value = "分类")
-    @TableField("goodsType")
-    private Integer goodstype;
-
-    @ApiModelProperty(value = "进货价")
-    private String purchaseprice;
-
-    @ApiModelProperty(value = "批发价")
-    private String wholesaleprice;
-
-    @ApiModelProperty(value = "零售价")
-    private String retailprice;
-
-    @ApiModelProperty(value = "数量")
-    private Integer count;
+    @ApiModelProperty(value = "电话")
+    private String phone;
 
     @ApiModelProperty(value = "备注")
     private String remark;
-
 
 }

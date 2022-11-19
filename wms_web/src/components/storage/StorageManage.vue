@@ -208,6 +208,7 @@ export default {
       user : JSON.parse(sessionStorage.getItem('CurUser')),
       storageData:[],
       goodstypeData:[],
+      brandData:[],
       tableData: [],
       pageSize:10,
       pageNum:1,
@@ -284,6 +285,13 @@ export default {
     formatGoodstype(row){
       let temp =  this.goodstypeData.find(item=>{
         return item.id == row.goodstype
+      })
+
+      return temp && temp.name
+    },
+    formatBrand(row){
+      let temp =  this.brandData.find(item=>{
+        return item.id == row.brand
       })
 
       return temp && temp.name

@@ -1,14 +1,13 @@
 package com.wms.controller;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
-import com.wms.entity.Goodstype;
-import com.wms.service.GoodstypeService;
+import com.wms.entity.Brand;
+import com.wms.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,32 +15,32 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author wms
- * @since 2022-11-15
+ * \* Created with IntelliJ IDEA.
+ * \* User: zxr
+ * \* Date: 2022/11/19
+ * \* Time: 18:08
+ * \* Description:
+ * \
  */
 @RestController
-@RequestMapping("/goodstype")
-public class GoodstypeController {
+@RequestMapping("/brand")
+public class BrandController {
     @Autowired
-    private GoodstypeService goodstypeService;
+    private BrandService brandService;
     //新增
     @PostMapping("/save")
-    public Result save(@RequestBody Goodstype goodstype){
-        return goodstypeService.save(goodstype)?Result.suc():Result.fail();
+    public Result save(@RequestBody Brand brand){
+        return brandService.save(brand)?Result.suc():Result.fail();
     }
     //更新
     @PostMapping("/update")
-    public Result update(@RequestBody Goodstype goodstype){
-        return goodstypeService.updateById(goodstype)?Result.suc():Result.fail();
+    public Result update(@RequestBody Brand brand){
+        return brandService.updateById(brand)?Result.suc():Result.fail();
     }
     //删除
     @GetMapping("/del")
     public Result del(@RequestParam String id){
-        return goodstypeService.removeById(id)?Result.suc():Result.fail();
+        return brandService.removeById(id)?Result.suc():Result.fail();
     }
 
     @PostMapping("/listPage")
@@ -49,21 +48,22 @@ public class GoodstypeController {
         HashMap param = query.getParam();
         String name = (String)param.get("name");
 
-        Page<Goodstype> page = new Page();
+        Page<Brand> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
-        LambdaQueryWrapper<Goodstype> lambdaQueryWrapper = new LambdaQueryWrapper();
+        LambdaQueryWrapper<Brand> lambdaQueryWrapper = new LambdaQueryWrapper();
         if(StringUtils.isNotBlank(name) && !"null".equals(name)){
-            lambdaQueryWrapper.like(Goodstype::getName,name);
+            lambdaQueryWrapper.like(Brand::getName,name);
         }
 
-        IPage result = goodstypeService.pageCC(page,lambdaQueryWrapper);
+        IPage result = brandService.pageCC(page,lambdaQueryWrapper);
         return Result.suc(result.getRecords(),result.getTotal());
     }
+
     @GetMapping("/list")
     public Result list(){
-        List list = goodstypeService.list();
+        List list = brandService.list();
         return Result.suc(list);
     }
 }
