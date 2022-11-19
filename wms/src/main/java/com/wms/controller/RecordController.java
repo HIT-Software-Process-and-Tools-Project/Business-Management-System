@@ -89,11 +89,21 @@ public class RecordController {
             record.setTotalprice(p);
             record.setProfit(jp);
         }
-        else{
+        else if("1".equals(record.getAction())){
             int num = goods.getCount()+n;
             goods.setCount(num);
             float price=-record.getCount()*Float.parseFloat(goods.getPurchaseprice());
             float jprice=-record.getCount()*Float.parseFloat(goods.getPurchaseprice());
+            String p=Float.toString(price);
+            String jp=Float.toString(jprice);
+            record.setTotalprice(p);
+            record.setProfit(jp);
+        }
+        else{
+            int num = goods.getCount()-n;
+            goods.setCount(num);
+            float price=record.getCount()*Float.parseFloat(goods.getRetailprice());
+            float jprice=record.getCount()*(Float.parseFloat(goods.getRetailprice())-Float.parseFloat(goods.getPurchaseprice()));
             String p=Float.toString(price);
             String jp=Float.toString(jprice);
             record.setTotalprice(p);
@@ -112,6 +122,26 @@ public class RecordController {
     @GetMapping("/del")
     public Result del(@RequestParam String id){
         return recordService.removeById(id)?Result.suc():Result.fail();
+    }
+
+    @PostMapping("/pos")
+    public Float pos(@RequestBody Record record){
+        Goods goods = goodsService.getById(record.getGoods());
+        int n = record.getCount();
+
+        int num = goods.getCount()-n;
+        goods.setCount(num);
+        float price=record.getCount()*Float.parseFloat(goods.getRetailprice());
+        float jprice=record.getCount()*(Float.parseFloat(goods.getRetailprice())-Float.parseFloat(goods.getPurchaseprice()));
+        String p=Float.toString(price);
+        String jp=Float.toString(jprice);
+        record.setTotalprice(p);
+        record.setProfit(jp);
+
+        goodsService.updateById(goods);
+        recordService.save(record);
+
+        return price;
     }
 }
 

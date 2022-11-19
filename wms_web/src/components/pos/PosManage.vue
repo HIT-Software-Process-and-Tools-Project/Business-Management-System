@@ -185,6 +185,33 @@ export default {
                   </span>
       </el-dialog>
 
+      <el-dialog
+          title="收银台"
+          :visible.sync="posDialogVisible"
+          width="30%"
+          center>
+
+        <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+
+          <el-form-item label="总价格">
+            <el-col :span="20">
+              <el-input v-model="form2.profit"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="收款">
+            <el-col :span="20">
+              <el-input v-model="form2.pay"></el-input>
+            </el-col>
+          </el-form-item>
+
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="posDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="doPay">确 定</el-button>
+  </span>
+      </el-dialog>
+
       <el-form ref="form1" :rules="rules1" :model="form1" label-width="80px">
         <el-form-item label="物品名">
           <el-col :span="20">
@@ -209,7 +236,7 @@ export default {
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button @click="inDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="doInGoods">确 定</el-button>
+    <el-button type="primary" @click="doInGoods2">确 定</el-button>
   </span>
     </el-dialog>
   </div>
@@ -244,6 +271,7 @@ export default {
       centerDialogVisible:false,
       inDialogVisible:false,
       diaoduDialogVisible:false,
+      posDialogVisible:false,
       innerVisible:false,
       currentRow:{},
       tempUser:{},
@@ -268,6 +296,10 @@ export default {
         iswholesale:'',
         totalprice:'',
         profit:''
+      },
+      form2:{
+        profit:'',
+        pay:''
       },
       rules1: {
 
@@ -409,8 +441,8 @@ export default {
       this.form1.goodsname = this.currentRow.name
       this.form1.goods = this.currentRow.id
       this.form1.adminId=this.user.id
-      this.form1.action='2'
-      this.form1.state=0
+      this.form1.action='3'
+      this.form1.state=2
       this.form1.iswholesale=0
     },
     selectUser(){
@@ -494,6 +526,49 @@ export default {
 
       })
     },
+
+    doInGoods2(){
+
+      this.$axios.post(this.$httpUrl+'/record/pos',this.form1).then(res=>res.data).then(res=>{
+        console.log(res)
+        this.form2.profit=res;
+      })
+      //this.form1.profit=this.$axios.post(this.$httpUrl+'/record/pos',this.form1).then(res=>res).then(res=>res)
+      //this.inDialogVisible=false
+      this.posDialogVisible=true
+
+    },
+
+    doPay(){
+      if(this.form2.pay==this.form2.profit){
+        this.$message({
+          message: '收款成功！',
+          type: 'success'
+        });
+        this.posDialogVisible=false;
+        this.inDialogVisible=false;
+
+      }
+      else if(this.form2.pay>this.form2.profit){
+        this.form2.pay=this.form2.pay-this.form2.profit;
+        this.$message({
+          message: '找零'+this.form2.pay+'元',
+          type: 'success'
+        });
+        this.posDialogVisible=false;
+        this.inDialogVisible=false;
+
+      }
+      else{
+        this.$message({
+          message: '实付款过小！',
+          type: 'error'
+        });
+
+      }
+
+    },
+
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.pageNum=1
@@ -558,7 +633,8 @@ export default {
     this.loadGoodstype()
     this.loadPost()
 
-  }
+  },
+
 }
 </script>
 
