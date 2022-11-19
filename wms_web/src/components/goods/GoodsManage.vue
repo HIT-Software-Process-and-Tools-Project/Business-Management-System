@@ -24,8 +24,8 @@
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
 
       <el-button type="primary" style="margin-left: 5px;" @click="add" v-if="user.roleId!=2">新增</el-button>
-<!--      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>-->
-<!--      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>-->
+      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>
+      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>
     </div>
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
@@ -251,7 +251,7 @@ export default {
         adminId:'',
         remark:'',
         action:'1',
-        state:''
+        state:'',
       },
       rules1: {
 
@@ -371,6 +371,7 @@ export default {
       this.form1.adminId=this.user.id
       this.form1.action='1'
       this.form1.state=4
+      this.form1.iswholesale=1
     },
     outGoods(){
       if(!this.currentRow.id){
@@ -388,6 +389,7 @@ export default {
       this.form1.adminId=this.user.id
       this.form1.action='2'
       this.form1.state=0
+      this.form1.iswholesale=1
 
     },
     selectUser(){

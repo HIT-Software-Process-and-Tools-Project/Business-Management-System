@@ -82,10 +82,22 @@ public class RecordController {
             record.setCount(n);
             int num = goods.getCount()-n;
             goods.setCount(num);
+            float price=record.getCount()*Float.parseFloat(goods.getWholesaleprice());
+            float jprice=record.getCount()*(Float.parseFloat(goods.getWholesaleprice())-Float.parseFloat(goods.getPurchaseprice()));
+            String p=Float.toString(price);
+            String jp=Float.toString(jprice);
+            record.setTotalprice(p);
+            record.setProfit(jp);
         }
         else{
             int num = goods.getCount()+n;
             goods.setCount(num);
+            float price=-record.getCount()*Float.parseFloat(goods.getPurchaseprice());
+            float jprice=-record.getCount()*Float.parseFloat(goods.getPurchaseprice());
+            String p=Float.toString(price);
+            String jp=Float.toString(jprice);
+            record.setTotalprice(p);
+            record.setProfit(jp);
         }
         goodsService.updateById(goods);
 

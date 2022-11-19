@@ -34,8 +34,8 @@
       <el-table-column prop="iswholesale" label="订单类型" width="90">
         <template slot-scope="scope">
           <el-tag
-              :type="scope.row.state == 0 ? 'danger' : 'success'"
-              disable-transitions>{{scope.row.state == 0 ? '零售订单' : '批发订单'}}</el-tag>
+              :type="scope.row.iswholesale == 0 ? 'danger' : 'success'"
+              disable-transitions>{{scope.row.iswholesale == 0 ? '零售订单' : '批发订单'}}</el-tag>
         </template>
       </el-table-column>
 <!--      <el-table-column prop="goodsname" label="物品名" width="80">-->
@@ -126,6 +126,8 @@ export default {
         count:'',
         remark:'',
         state:'',
+        totalprice:'',
+        profit:''
       },
     }
   },
