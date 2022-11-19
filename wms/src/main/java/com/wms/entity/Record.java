@@ -59,6 +59,12 @@ public class Record implements Serializable {
     @ApiModelProperty(value = "状态")
     private String state;
 
+    @ApiModelProperty(value = "总金额")
+    private String totalprice;
+
+    @ApiModelProperty(value = "毛利润")
+    private String profit;
+
     @TableField(exist = false)
     private String action;
 }
