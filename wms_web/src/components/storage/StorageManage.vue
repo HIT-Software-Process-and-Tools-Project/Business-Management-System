@@ -24,8 +24,8 @@
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
 
 <!--      <el-button type="primary" style="margin-left: 5px;" @click="add" v-if="user.roleId!=2">新增</el-button>-->
-<!--      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>-->
-<!--      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>-->
+      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>
+      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>
     </div>
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
@@ -43,19 +43,19 @@
       </el-table-column>
       <el-table-column prop="count" label="数量" width="100">
       </el-table-column>
-      <el-table-column prop="remark" label="备注">
+      <el-table-column prop="remark" label="备注" width="400">
       </el-table-column>
       <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
         <template slot-scope="scope">
-          <el-button size="small" type="success" @click="mod(scope.row)">进货入库</el-button>
-          <el-popconfirm
-              title="确定出库吗？"
-              @confirm="del(scope.row.id)"
-              style="margin-left: 5px;"
-          >
-            <el-button slot="reference" size="small" type="danger" >销售出库</el-button>
-          </el-popconfirm>
-          <el-button size="small" type="warning" style="margin-left: 5px;" @click="mod(scope.row)">库存盘点</el-button>
+<!--          <el-button size="small" type="success" @click="mod(scope.row)">进货入库</el-button>-->
+<!--          <el-popconfirm-->
+<!--              title="确定出库吗？"-->
+<!--              @confirm="del(scope.row.id)"-->
+<!--              style="margin-left: 5px;"-->
+<!--          >-->
+<!--            <el-button slot="reference" size="small" type="danger" >销售出库</el-button>-->
+<!--          </el-popconfirm>-->
+          <el-button size="small" type="success" style="margin-left: 5px;" @click="mod(scope.row)">库存盘点</el-button>
         </template>
       </el-table-column>
     </el-table>
