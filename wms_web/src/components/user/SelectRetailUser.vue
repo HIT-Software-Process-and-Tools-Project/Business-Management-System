@@ -21,22 +21,22 @@
               highlight-current-row
               @current-change="selectCurrentChange"
     >
-      <el-table-column prop="id" label="ID" width="60">
+      <el-table-column prop="id" label="ID" width="120">
       </el-table-column>
-      <el-table-column prop="no" label="账号" width="180">
+      <el-table-column prop="no" label="账号" width="360">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="180">
+      <el-table-column prop="name" label="姓名" width="360">
       </el-table-column>
-      <el-table-column prop="age" label="年龄" width="80">
-      </el-table-column>
-      <el-table-column prop="sex" label="性别" width="80">
-        <template slot-scope="scope">
-          <el-tag
-              :type="scope.row.sex === 1 ? 'primary' : 'success'"
-              disable-transitions>{{scope.row.sex === 1 ? '男' : '女'}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="roleId" label="角色" width="120">
+<!--      <el-table-column prop="age" label="年龄" width="80">-->
+<!--      </el-table-column>-->
+<!--      <el-table-column prop="sex" label="性别" width="80">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-tag-->
+<!--              :type="scope.row.sex === 1 ? 'primary' : 'success'"-->
+<!--              disable-transitions>{{scope.row.sex === 1 ? '男' : '女'}}</el-tag>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+      <el-table-column prop="roleId" label="角色" width="240">
         <template slot-scope="scope">
           <el-tag
               :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : (scope.row.roleId === 2 ? 'warning' : 'success'))"
@@ -46,8 +46,8 @@
                       (scope.row.roleId === 3 ? '批发客户' : '零售客户')))}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="phone" label="电话">
-      </el-table-column>
+<!--      <el-table-column prop="phone" label="电话">-->
+<!--      </el-table-column>-->
     </el-table>
     <el-pagination style="margin-left: 5px;"
                    @size-change="handleSizeChange"

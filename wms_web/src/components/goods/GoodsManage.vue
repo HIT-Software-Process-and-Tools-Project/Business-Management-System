@@ -37,8 +37,8 @@
       </el-table-column>
       <el-table-column prop="name" label="货品名" width="100">
       </el-table-column>
-      <el-table-column prop="brand" label="品牌" width="100">
-      </el-table-column>
+<!--      <el-table-column prop="brand" label="品牌" width="100">-->
+<!--      </el-table-column>-->
       <el-table-column prop="storage" label="仓库" width="100" :formatter="formatStorage">
       </el-table-column>
       <el-table-column prop="goodstype" label="分类" width="100" :formatter="formatGoodstype">
