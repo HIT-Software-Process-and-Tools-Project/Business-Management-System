@@ -29,7 +29,9 @@
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
     >
-      <el-table-column prop="id" label="订单ID" width="60">
+      <el-table-column prop="id" label="子订单ID" width="80">
+      </el-table-column>
+      <el-table-column prop="id" label="父订单ID" width="80">
       </el-table-column>
       <el-table-column prop="iswholesale" label="订单类型" width="90">
         <template slot-scope="scope">
@@ -38,20 +40,20 @@
               disable-transitions>{{scope.row.state == 0 ? '零售订单' : '批发订单'}}</el-tag>
         </template>
       </el-table-column>
-<!--      <el-table-column prop="goodsname" label="物品名" width="80">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column prop="storagename" label="仓库" width="120">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column prop="goodstypename" label="分类" width="80">-->
-<!--      </el-table-column>-->
+      <el-table-column prop="goodsname" label="物品名" width="70">
+      </el-table-column>
+      <el-table-column prop="storagename" label="仓库" width="70">
+      </el-table-column>
+      <el-table-column prop="goodstypename" label="分类" width="80">
+      </el-table-column>
       <el-table-column prop="username" label="客户ID" width="80">
       </el-table-column>
       <el-table-column prop="adminname" label="操作人" width="90">
       </el-table-column>
 <!--      <el-table-column prop="username" label="申请人" width="90">-->
 <!--      </el-table-column>-->
-<!--      <el-table-column prop="count" label="数量" width="50">-->
-<!--      </el-table-column>-->
+      <el-table-column prop="count" label="数量" width="50">
+      </el-table-column>
       <el-table-column prop="totalprice" label="总金额" width="70">
       </el-table-column>
       <el-table-column prop="profit" label="毛利润" width="60">
@@ -72,7 +74,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="330">
         <template  slot-scope="scope">
-          <el-button type="info" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">详情</el-button>
+<!--          <el-button type="info" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">详情</el-button>-->
           <el-button type="primary" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">审核</el-button>
           <el-button type="success" style="margin-left: 5px;" size="small" @click="mod(scope.row,1)">收款</el-button>
           <el-button type="warning" style="margin-left: 5px;" size="small" @click="mod(scope.row,2)">退货</el-button>
