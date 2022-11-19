@@ -23,9 +23,9 @@
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
 
-<!--      <el-button type="primary" style="margin-left: 5px;" @click="add" v-if="user.roleId!=2">新增</el-button>-->
-      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>
-      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>
+      <!--      <el-button type="primary" style="margin-left: 5px;" @click="add" v-if="user.roleId!=2">新增</el-button>-->
+            <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>
+            <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>
     </div>
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
@@ -43,19 +43,19 @@
       </el-table-column>
       <el-table-column prop="count" label="数量" width="100">
       </el-table-column>
-      <el-table-column prop="remark" label="备注" width="400">
+      <el-table-column prop="remark" label="备注">
       </el-table-column>
       <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
         <template slot-scope="scope">
-<!--          <el-button size="small" type="success" @click="mod(scope.row)">进货入库</el-button>-->
-<!--          <el-popconfirm-->
-<!--              title="确定出库吗？"-->
-<!--              @confirm="del(scope.row.id)"-->
-<!--              style="margin-left: 5px;"-->
-<!--          >-->
-<!--            <el-button slot="reference" size="small" type="danger" >销售出库</el-button>-->
-<!--          </el-popconfirm>-->
-          <el-button size="small" type="success" style="margin-left: 5px;" @click="mod(scope.row)">库存盘点</el-button>
+          <el-button size="small" type="success" @click="mod1(scope.row)">货品调度</el-button>
+          <!--          <el-popconfirm
+                        title="确定出库吗？"
+                        @confirm="del(scope.row.id)"
+                        style="margin-left: 5px;"
+                    >
+                      <el-button slot="reference" size="small" type="danger" >销售出库</el-button>
+                    </el-popconfirm>-->
+          <el-button size="small" type="warning" style="margin-left: 5px;" @click="mod(scope.row)">库存盘点</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -81,19 +81,7 @@
             <el-input v-model="form.name"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="仓库" prop="storage">
-          <el-col :span="20">
-            <el-select v-model="form.storage" placeholder="请选择仓库" style="margin-left: 5px;">
-              <el-option
-                  v-for="item in storageData"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-              </el-option>
-            </el-select>
 
-          </el-col>
-        </el-form-item>
         <el-form-item label="分类" prop="goodstype">
           <el-col :span="20">
             <el-select v-model="form.goodstype" placeholder="请选择分类" style="margin-left: 5px;">
@@ -119,6 +107,36 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="save">确 定</el-button>
+  </span>
+    </el-dialog>
+
+    <el-dialog
+        title="物品调度"
+        :visible.sync="diaoduDialogVisible"
+        width="30%"
+        center>
+
+      <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+
+        <el-form-item label="仓库" prop="storage">
+          <el-col :span="20">
+            <el-select v-model="form.storage" placeholder="请选择仓库" style="margin-left: 5px;">
+              <el-option
+                  v-for="item in storageData"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+              </el-option>
+            </el-select>
+
+          </el-col>
+        </el-form-item>
+
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="diaoduDialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="save">确 定</el-button>
   </span>
     </el-dialog>
@@ -199,6 +217,7 @@ export default {
       goodstype:'',
       centerDialogVisible:false,
       inDialogVisible:false,
+      diaoduDialogVisible:false,
       innerVisible:false,
       currentRow:{},
       tempUser:{},
@@ -298,6 +317,18 @@ export default {
     },
     mod(row){
       this.centerDialogVisible = true
+      this.$nextTick(()=>{
+        //赋值到表单
+        this.form.id = row.id
+        this.form.name = row.name
+        this.form.storage = row.storage
+        this.form.goodstype = row.goodstype
+        this.form.count = row.count
+        this.form.remark = row.remark
+      })
+    },
+    mod1(row){
+      this.diaoduDialogVisible = true
       this.$nextTick(()=>{
         //赋值到表单
         this.form.id = row.id
