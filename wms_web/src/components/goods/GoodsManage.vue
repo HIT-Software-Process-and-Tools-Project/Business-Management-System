@@ -90,7 +90,7 @@
         </el-form-item>
         <el-form-item label="品牌" prop="name">
           <el-col :span="20">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.brand"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="仓库" prop="storage">
@@ -120,17 +120,17 @@
         </el-form-item>
         <el-form-item label="进货价" prop="name">
           <el-col :span="20">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.purchaseprice"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="批发价" prop="name">
         <el-col :span="20">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.wholesaleprice"></el-input>
         </el-col>
       </el-form-item>
         <el-form-item label="零售价" prop="name">
           <el-col :span="20">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.retailprice"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="数量" prop="count">
@@ -232,7 +232,11 @@ export default {
       form:{
         id:'',
         name:'',
+        brand:'',
         storage:'',
+        purchaseprice:'',
+        wholesaleprice:'',
+        retailprice:'',
         goodstype:'',
         count:'',
         remark:''
@@ -331,7 +335,11 @@ export default {
         //赋值到表单
         this.form.id = row.id
         this.form.name = row.name
+        this.form.brand=row.brand
         this.form.storage = row.storage
+        this.form.purchaseprice=row.purchaseprice
+        this.form.retailprice=row.retailprice
+        this.form.wholesaleprice=row.wholesaleprice
         this.form.goodstype = row.goodstype
         this.form.count = row.count
         this.form.remark = row.remark
