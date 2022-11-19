@@ -77,13 +77,15 @@
           <el-button type="success" style="margin-left: 5px;" size="small" @click="mod(scope.row,1)">收款</el-button>
           <el-button type="warning" style="margin-left: 5px;" size="small" @click="mod(scope.row,2)">退货</el-button>
           <!--                <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>-->
-          <el-popconfirm
+          <el-button slot="reference" size="small" type="danger" style="margin-left: 5px;" @click="del(scope.row,0)">删除</el-button>
+<!--            <el-popconfirm
+                @click="del(scope.row,0)"
               title="确定删除吗？"
               @confirm="del(scope.row.id)"
-              style="margin-left: 5px;"
-          >
-            <el-button slot="reference" size="small" type="danger" >删除</el-button>
-          </el-popconfirm>
+            >
+
+            </el-popconfirm>-->
+
         </template>
       </el-table-column>
 
@@ -170,26 +172,43 @@ export default {
         })
       }
     },
-    del(id){
-      console.log(id)
+    del(id,i){
+      console.log(id,i)
+      if(id.state!=i){
+        this.$message({
+          message: '该销售阶段无法删除',
+          type: 'error'
+        });
+      }
+      else{
+        this.$confirm('确定删除吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({type: 'success',message: '删除成功!'});
+        }).catch(() => {
+          this.$message({type: 'info',message: '已取消删除' });
+        })
+        this.$axios.get(this.$httpUrl+'/record/del?id='+id).then(res=>res.data).then(res=>{
+          console.log(res)
+          if(res.code==200){
 
-      this.$axios.get(this.$httpUrl+'/record/del?id='+id).then(res=>res.data).then(res=>{
-        console.log(res)
-        if(res.code==200){
+            this.$message({
+              message: '操作成功！',
+              type: 'success'
+            });
+            this.loadPost()
+          }else{
+            this.$message({
+              message: '操作失败！',
+              type: 'error'
+            });
+          }
 
-          this.$message({
-            message: '操作成功！',
-            type: 'success'
-          });
-          this.loadPost()
-        }else{
-          this.$message({
-            message: '操作失败！',
-            type: 'error'
-          });
-        }
+        })
+      }
 
-      })
     },
 
     formatStorage(row){
