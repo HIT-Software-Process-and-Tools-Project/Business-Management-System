@@ -21,7 +21,7 @@
       </el-select>
 
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
-      <el-button type="success" @click="resetParam">重置</el-button>
+      <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
 
 
     </div>
@@ -34,8 +34,8 @@
       <el-table-column prop="iswholesale" label="订单类型" width="90">
         <template slot-scope="scope">
           <el-tag
-              :type="scope.row.state == 0 ? 'danger' : 'success'"
-              disable-transitions>{{scope.row.state == 0 ? '零售订单' : '批发订单'}}</el-tag>
+              :type="scope.row.iswholesale == 0 ? 'danger' : 'success'"
+              disable-transitions>{{scope.row.iswholesale == 0 ? '零售订单' : '批发订单'}}</el-tag>
         </template>
       </el-table-column>
 <!--      <el-table-column prop="goodsname" label="物品名" width="80">-->
@@ -58,7 +58,7 @@
       </el-table-column>
       <el-table-column prop="createtime" label="创建订单时间" width="160">
       </el-table-column>
-      <el-table-column prop="remark" label="备注">
+      <el-table-column prop="remark" label="备注" width="60">
       </el-table-column>
       <el-table-column fixed="right" prop="state" label="状态"  width="75">
         <template slot-scope="scope">
@@ -72,18 +72,20 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="330">
         <template  slot-scope="scope">
-          <el-button type="info" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">详情</el-button>
+<!--          <el-button type="info" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">详情</el-button>-->
           <el-button type="primary" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">审核</el-button>
           <el-button type="success" style="margin-left: 5px;" size="small" @click="mod(scope.row,1)">收款</el-button>
           <el-button type="warning" style="margin-left: 5px;" size="small" @click="mod(scope.row,2)">退货</el-button>
           <!--                <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>-->
-          <el-popconfirm
+          <el-button slot="reference" size="small" type="danger" style="margin-left: 5px;" @click="del(scope.row,0)">删除</el-button>
+<!--            <el-popconfirm
+                @click="del(scope.row,0)"
               title="确定删除吗？"
               @confirm="del(scope.row.id)"
-              style="margin-left: 5px;"
-          >
-            <el-button slot="reference" size="small" type="danger" >删除</el-button>
-          </el-popconfirm>
+            >
+
+            </el-popconfirm>-->
+
         </template>
       </el-table-column>
 
@@ -126,6 +128,8 @@ export default {
         count:'',
         remark:'',
         state:'',
+        totalprice:'',
+        profit:''
       },
     }
   },
@@ -170,26 +174,43 @@ export default {
         })
       }
     },
-    del(id){
-      console.log(id)
+    del(id,i){
+      console.log(id,i)
+      if(id.state!=i){
+        this.$message({
+          message: '该销售阶段无法删除',
+          type: 'error'
+        });
+      }
+      else{
+        this.$confirm('确定删除吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({type: 'success',message: '删除成功!'});
+        }).catch(() => {
+          this.$message({type: 'info',message: '已取消删除' });
+        })
+        this.$axios.get(this.$httpUrl+'/record/del?id='+id).then(res=>res.data).then(res=>{
+          console.log(res)
+          if(res.code==200){
 
-      this.$axios.get(this.$httpUrl+'/record/del?id='+id).then(res=>res.data).then(res=>{
-        console.log(res)
-        if(res.code==200){
+            this.$message({
+              message: '操作成功！',
+              type: 'success'
+            });
+            this.loadPost()
+          }else{
+            this.$message({
+              message: '操作失败！',
+              type: 'error'
+            });
+          }
 
-          this.$message({
-            message: '操作成功！',
-            type: 'success'
-          });
-          this.loadPost()
-        }else{
-          this.$message({
-            message: '操作失败！',
-            type: 'error'
-          });
-        }
+        })
+      }
 
-      })
     },
 
     formatStorage(row){

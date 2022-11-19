@@ -24,8 +24,8 @@
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
 
       <el-button type="primary" style="margin-left: 5px;" @click="add" v-if="user.roleId!=2">新增</el-button>
-<!--      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>-->
-<!--      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>-->
+<!--      <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>
+      <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>-->
     </div>
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
@@ -37,8 +37,8 @@
       </el-table-column>
       <el-table-column prop="name" label="货品名" width="100">
       </el-table-column>
-      <el-table-column prop="brand" label="品牌" width="100">
-      </el-table-column>
+<!--      <el-table-column prop="brand" label="品牌" width="100">-->
+<!--      </el-table-column>-->
       <el-table-column prop="storage" label="仓库" width="100" :formatter="formatStorage">
       </el-table-column>
       <el-table-column prop="goodstype" label="分类" width="100" :formatter="formatGoodstype">
@@ -90,7 +90,7 @@
         </el-form-item>
         <el-form-item label="品牌" prop="name">
           <el-col :span="20">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.brand"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="仓库" prop="storage">
@@ -120,17 +120,17 @@
         </el-form-item>
         <el-form-item label="进货价" prop="name">
           <el-col :span="20">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.purchaseprice"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="批发价" prop="name">
         <el-col :span="20">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.wholesaleprice"></el-input>
         </el-col>
       </el-form-item>
         <el-form-item label="零售价" prop="name">
           <el-col :span="20">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.retailprice"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="数量" prop="count">
@@ -232,7 +232,11 @@ export default {
       form:{
         id:'',
         name:'',
+        brand:'',
         storage:'',
+        purchaseprice:'',
+        wholesaleprice:'',
+        retailprice:'',
         goodstype:'',
         count:'',
         remark:''
@@ -247,7 +251,7 @@ export default {
         adminId:'',
         remark:'',
         action:'1',
-        state:''
+        state:'',
       },
       rules1: {
 
@@ -331,7 +335,11 @@ export default {
         //赋值到表单
         this.form.id = row.id
         this.form.name = row.name
+        this.form.brand=row.brand
         this.form.storage = row.storage
+        this.form.purchaseprice=row.purchaseprice
+        this.form.retailprice=row.retailprice
+        this.form.wholesaleprice=row.wholesaleprice
         this.form.goodstype = row.goodstype
         this.form.count = row.count
         this.form.remark = row.remark
@@ -363,6 +371,7 @@ export default {
       this.form1.adminId=this.user.id
       this.form1.action='1'
       this.form1.state=4
+      this.form1.iswholesale=1
     },
     outGoods(){
       if(!this.currentRow.id){
@@ -380,6 +389,7 @@ export default {
       this.form1.adminId=this.user.id
       this.form1.action='2'
       this.form1.state=0
+      this.form1.iswholesale=1
 
     },
     selectUser(){
