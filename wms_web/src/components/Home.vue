@@ -1,6 +1,6 @@
 <template>
     <div style="text-align: center;background-color: #f1f1f3;height: 100%;padding: 0px;margin: 0px;">
-        <h1 style="font-size: 30px;">{{'欢迎使用本系统！您当前的权限是：'+user.name}}</h1>
+        <h1 style="font-size: 30px;">欢迎使用本系统！</h1>
         <el-descriptions  title="个人中心" :column="2" size="40" border>
             <el-descriptions-item>
                 <template slot="label">
@@ -30,9 +30,12 @@
                     <i class="el-icon-tickets"></i>
                     角色
                 </template>
-                <el-tag
-                        type="success"
-                        disable-transitions>{{user.roleId==0?"超级管理员":(user.roleId==1?"管理员":"用户")}}</el-tag>
+              <el-tag
+                  :type="user.roleId === 0 ? 'danger' : (user.roleId === 1 ? 'primary' : (user.roleId === 2 ? 'warning' : 'success'))"
+                  disable-transitions>{{user.roleId === 0 ? '经理' :
+                  (user.roleId === 1 ? '仓库管理员' :
+                      (user.roleId === 2 ? '售货员' :
+                          (user.roleId === 3 ? '批发客户' : '零售客户')))}}</el-tag>
 
             </el-descriptions-item>
         </el-descriptions>

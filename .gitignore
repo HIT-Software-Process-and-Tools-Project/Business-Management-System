@@ -37,3 +37,6 @@ gen
 /wms_web/node_modules/
 application.yml
 pom.xml
+wms/wms.iws
+
+wms/wms.ipr

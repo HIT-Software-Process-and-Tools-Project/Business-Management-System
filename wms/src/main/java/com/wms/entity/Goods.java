@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author wms
- * @since 2022-10-15
+ * @since 2022-11-15
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -31,12 +31,24 @@ public class Goods implements Serializable {
     @ApiModelProperty(value = "货名")
     private String name;
 
+    @ApiModelProperty(value = "品牌")
+    private String brand;
+
     @ApiModelProperty(value = "仓库")
     private Integer storage;
 
     @ApiModelProperty(value = "分类")
     @TableField("goodsType")
     private Integer goodstype;
+
+    @ApiModelProperty(value = "进货价")
+    private String purchaseprice;
+
+    @ApiModelProperty(value = "批发价")
+    private String wholesaleprice;
+
+    @ApiModelProperty(value = "零售价")
+    private String retailprice;
 
     @ApiModelProperty(value = "数量")
     private Integer count;

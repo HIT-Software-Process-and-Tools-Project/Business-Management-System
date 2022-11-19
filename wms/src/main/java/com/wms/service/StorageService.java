@@ -19,7 +19,7 @@ import java.util.List;
  * </p>
  *
  * @author wms
- * @since 2022-10-15
+ * @since 2022-11-15
  */
 public interface StorageService extends IService<Storage> {
 

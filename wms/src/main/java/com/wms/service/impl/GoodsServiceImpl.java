@@ -22,7 +22,7 @@ import java.util.List;
  * </p>
  *
  * @author wms
- * @since 2022-10-15
+ * @since 2022-11-15
  */
 @Service
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {

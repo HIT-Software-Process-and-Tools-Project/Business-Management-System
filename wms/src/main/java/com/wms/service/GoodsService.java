@@ -15,7 +15,7 @@ import java.util.List;
  * </p>
  *
  * @author wms
- * @since 2022-10-15
+ * @since 2022-11-15
  */
 public interface GoodsService extends IService<Goods> {
     IPage pageCC(IPage<Goods> page, Wrapper wrapper);
