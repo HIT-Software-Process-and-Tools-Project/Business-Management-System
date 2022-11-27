@@ -57,6 +57,7 @@ export default {
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
               highlight-current-row
+              show-summary
               @current-change="selectCurrentChange"
     >
       <el-table-column prop="id" label="ID" width="60">

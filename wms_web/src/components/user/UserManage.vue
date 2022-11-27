@@ -19,6 +19,7 @@
         <el-table :data="tableData"
                   :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
                   border
+                  show-summary
         >
             <el-table-column prop="id" label="ID" width="60">
             </el-table-column>

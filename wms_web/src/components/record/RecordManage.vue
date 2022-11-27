@@ -28,6 +28,7 @@
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
+              show-summary
     >
       <el-table-column prop="id" label="订单ID" width="60">
       </el-table-column>
@@ -58,7 +59,7 @@
       </el-table-column>
       <el-table-column prop="createtime" label="创建订单时间" width="160">
       </el-table-column>
-      <el-table-column prop="remark" label="备注" width="60">
+      <el-table-column prop="remark" label="备注" width="200">
       </el-table-column>
       <el-table-column fixed="right" prop="state" label="状态"  width="75">
         <template slot-scope="scope">
