@@ -132,6 +132,11 @@
 
           </el-col>
         </el-form-item>
+        <el-form-item label="数量" prop="count">
+          <el-col :span="20">
+            <el-input v-model="form.count"></el-input>
+          </el-col>
+        </el-form-item>
 
 
       </el-form>
@@ -244,7 +249,11 @@ export default {
         profit:''
       },
       rules1: {
-
+        count: [
+          {required: true, message: '请输入数量', trigger: 'blur'},
+          {pattern: /^([1-9][0-9]*){1,4}$/,message: '数量必须为正整数字',trigger: "blur"},
+          {validator:checkCount,trigger: 'blur'}
+        ],
       },
       rules: {
         name: [

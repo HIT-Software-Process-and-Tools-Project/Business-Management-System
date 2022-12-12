@@ -110,8 +110,8 @@
                 </el-form-item>
               <el-form-item label="身份">
                 <el-radio-group v-model="form.roleId">
-                  <el-radio label="2">批发用户</el-radio>
-                  <el-radio label="3">零售用户</el-radio>
+                  <el-radio label="3">批发用户</el-radio>
+                  <el-radio label="4">零售用户</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-form>

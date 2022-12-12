@@ -118,17 +118,17 @@
             </el-select>
           </el-col>
         </el-form-item>
-        <el-form-item label="进货价" prop="name">
+        <el-form-item label="进货价" prop="purchaseprice">
           <el-col :span="20">
             <el-input v-model="form.purchaseprice"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="批发价" prop="name">
+        <el-form-item label="批发价" prop="wholesaleprice">
         <el-col :span="20">
           <el-input v-model="form.wholesaleprice"></el-input>
         </el-col>
       </el-form-item>
-        <el-form-item label="零售价" prop="name">
+        <el-form-item label="零售价" prop="retailprice">
           <el-col :span="20">
             <el-input v-model="form.retailprice"></el-input>
           </el-col>
@@ -265,6 +265,15 @@ export default {
         ],
         goodstype:[
           {required: true, message: '请选择分类', trigger: 'blur'}
+        ],
+        purchaseprice: [
+          {required: true, message: '请输入进货价', trigger: 'blur'}
+        ],
+        wholesaleprice: [
+          {required: true, message: '请输入批发价', trigger: 'blur'}
+        ],
+        retailprice: [
+          {required: true, message: '请输入零售价', trigger: 'blur'}
         ],
         count: [
           {required: true, message: '请输入数量', trigger: 'blur'},

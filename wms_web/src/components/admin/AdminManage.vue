@@ -108,6 +108,12 @@
                         <el-input v-model="form.phone"></el-input>
                     </el-col>
                 </el-form-item>
+              <el-form-item label="身份">
+                <el-radio-group v-model="form.roleId">
+                  <el-radio label="1">仓库管理员</el-radio>
+                  <el-radio label="2">售货员</el-radio>
+                </el-radio-group>
+              </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">取 消</el-button>
@@ -157,6 +163,16 @@
                         value: '0',
                         label: '女'
                     }
+                ],
+                roleId:'',
+                roleIds:[
+                  {
+                    value: '1',
+                    label: '仓库管理员'
+                  }, {
+                    value: '2',
+                    label: '售货员'
+                  }
                 ],
                 centerDialogVisible:false,
                 form:{
@@ -229,7 +245,7 @@
                     this.form.id = row.id
                     this.form.no = row.no
                     this.form.name = row.name
-                    this.form.password = ''
+                    this.form.password = row.password
                     this.form.age = row.age +''
                     this.form.sex = row.sex +''
                     this.form.phone = row.phone
