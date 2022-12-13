@@ -191,7 +191,7 @@ export default {
           width="30%"
           center>
 
-        <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+        <el-form ref="form" :rules="rules" :model="form2" label-width="80px">
 
           <el-form-item label="总价格">
             <el-col :span="20">

@@ -57,6 +57,7 @@
                     >
                         <el-button slot="reference" size="small" type="danger" >删除</el-button>
                     </el-popconfirm>
+                    <el-button type="warning" style="margin-left: 5px;" @click="sta(scope.row)">统计</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -71,7 +72,7 @@
         </el-pagination>
 
         <el-dialog
-                title="提示"
+                title="管理员管理"
                 :visible.sync="centerDialogVisible"
                 width="30%"
                 center>
@@ -120,6 +121,30 @@
     <el-button type="primary" @click="save">确 定</el-button>
   </span>
         </el-dialog>
+
+      <el-dialog
+          title="营业额统计"
+          :visible.sync="staDialogVisible"
+          width="30%"
+          center>
+
+        <el-form ref="form" :rules="rules" :model="form1" label-width="80px">
+
+          <el-form-item label="销售业绩">
+            <el-col :span="20">
+              <el-input v-model="form1.score"
+              :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="staDialogVisible = false">关 闭</el-button>
+  </span>
+      </el-dialog>
+
+
     </div>
 </template>
 
@@ -175,6 +200,7 @@
                   }
                 ],
                 centerDialogVisible:false,
+                staDialogVisible:false,
                 form:{
                     id:'',
                     no:'',
@@ -185,6 +211,9 @@
                     sex:'0',
                     roleId:'1'
                 },
+              form1:{
+                score:''
+              },
                 rules: {
                     no: [
                         {required: true, message: '请输入账号', trigger: 'blur'},
@@ -259,6 +288,20 @@
                     this.resetForm()
                 })
 
+            },
+            sta(row){
+              /*this.$axios.post(this.$httpUrl+'/record/pos',this.form1).then(res=>res.data).then(res=>{
+                console.log(res)
+                this.form2.profit=res;
+              })*/
+              this.$axios.post(this.$httpUrl+'/record/sta', {id:row.id}).then(res=>res.data).then(res=>{
+                              console.log(res)
+                              this.form1.score=res;
+                            })
+              this.staDialogVisible=true
+              /*this.$nextTick(()=>{
+                this.form1.score = row.id
+              })*/
             },
             doSave(){
                 this.$axios.post(this.$httpUrl+'/user/save',this.form).then(res=>res.data).then(res=>{

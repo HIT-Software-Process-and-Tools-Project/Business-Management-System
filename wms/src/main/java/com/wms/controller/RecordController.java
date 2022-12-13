@@ -5,18 +5,26 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
 import com.wms.entity.Goods;
 import com.wms.entity.Goodstype;
 import com.wms.entity.Record;
+import com.wms.entity.User;
+import com.wms.mapper.GoodsMapper;
+import com.wms.mapper.RecordMapper;
 import com.wms.service.GoodsService;
 import com.wms.service.RecordService;
+import org.apache.logging.log4j.util.PerformanceSensitive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -35,6 +43,10 @@ public class RecordController {
 
     @Autowired
     private GoodsService goodsService;
+
+    @Resource
+    private RecordMapper recordMapper;
+
     @PostMapping("/listPage")
     public Result listPage(@RequestBody QueryPageParam query){
         HashMap param = query.getParam();
@@ -53,10 +65,10 @@ public class RecordController {
         QueryWrapper<Record> queryWrapper = new QueryWrapper();
         queryWrapper.apply(" a.goods=b.id and b.storage=c.id and b.goodsType=d.id ");
 
-        if("2".equals(roleId)){
+        /*if("2".equals(roleId)){
             // queryWrapper.eq(Record::getUserid,userId);
             queryWrapper.apply(" a.userId= "+userId);
-        }
+        }*/
 
         if(StringUtils.isNotBlank(name) && !"null".equals(name)){
             queryWrapper.like("b.name",name);
@@ -143,5 +155,33 @@ public class RecordController {
 
         return price;
     }
+
+    @PostMapping("/sta")
+    public Float sta(@RequestBody User user){
+        float score = 0;
+        List<String> cus=new ArrayList<>();
+        String nowCus;
+        LambdaQueryWrapper<Record> lambdaQueryWrapper = new LambdaQueryWrapper();
+        String id=user.getId().toString();
+        lambdaQueryWrapper.eq(Record::getAdminId,id);
+        //List<BannerItem> bannerItems = bannerItemMapper.selectList(wrapper);
+        List<Record> sta = recordMapper.selectList(lambdaQueryWrapper);
+        for(Record i:sta){
+            score+=Float.parseFloat(i.getProfit());
+            score+=i.getCount();
+        }
+        for(Record i:sta){
+            if(i.getUserid()!=null)
+            {
+                nowCus=i.getUserid().toString();
+                if(!cus.contains(nowCus))
+                    cus.add(nowCus);
+            }
+        }
+        score+= cus.size();
+        return score;
+    }
+
+
 }
 
