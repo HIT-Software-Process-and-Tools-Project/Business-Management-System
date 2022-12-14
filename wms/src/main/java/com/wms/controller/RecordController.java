@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -164,11 +165,15 @@ public class RecordController {
         LambdaQueryWrapper<Record> lambdaQueryWrapper = new LambdaQueryWrapper();
         String id=user.getId().toString();
         lambdaQueryWrapper.eq(Record::getAdminId,id);
-        //List<BannerItem> bannerItems = bannerItemMapper.selectList(wrapper);
         List<Record> sta = recordMapper.selectList(lambdaQueryWrapper);
+        //销售业绩=0.5*创收+0.3*销售数量+0.2*客户数量
         for(Record i:sta){
-            score+=Float.parseFloat(i.getProfit());
-            score+=i.getCount();
+            if(i.getProfit()!=null){
+                score+=0.5*Float.parseFloat(i.getProfit());
+            }
+            if(i.getCount()!=null){
+                score+=0.3*i.getCount();
+            }
         }
         for(Record i:sta){
             if(i.getUserid()!=null)
@@ -178,8 +183,40 @@ public class RecordController {
                     cus.add(nowCus);
             }
         }
-        score+= cus.size();
-        return score;
+        score+= 0.2*cus.size();
+
+        //return score;
+        return Float.parseFloat(String.format("%.2f", score));
+    }
+
+    @PostMapping("/paid")
+    public Float paid(){
+        float price = 0;
+        LambdaQueryWrapper<Record> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.between(Record::getState,'2','4');
+        List<Record> sta = recordMapper.selectList(lambdaQueryWrapper);
+        for(Record i:sta){
+            if(i.getTotalprice()!=null)
+            {
+                price+=Float.parseFloat(i.getTotalprice());
+            }
+        }
+        return price;
+    }
+
+    @PostMapping("/unpaid")
+    public Float unpaid(){
+        float price = 0;
+        LambdaQueryWrapper<Record> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.le(Record::getState,'1');
+        List<Record> sta = recordMapper.selectList(lambdaQueryWrapper);
+        for(Record i:sta){
+            if(i.getTotalprice()!=null)
+            {
+                price+=Float.parseFloat(i.getTotalprice());
+            }
+        }
+        return price;
     }
 
 

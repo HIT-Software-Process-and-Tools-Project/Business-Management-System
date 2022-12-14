@@ -15,6 +15,7 @@
             <el-button type="success" @click="resetParam">重置</el-button>
 
             <el-button type="primary" style="margin-left: 5px;" @click="add">新增</el-button>
+            <el-button type="warning" style="margin-left: 5px;" @click="cusSta">客户资金统计</el-button>
         </div>
         <el-table :data="tableData"
                   :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
@@ -120,6 +121,35 @@
     <el-button type="primary" @click="save">确 定</el-button>
   </span>
         </el-dialog>
+
+      <el-dialog
+          title="客户资金统计"
+          :visible.sync="cusStaDialogVisible"
+          width="30%"
+          center>
+
+        <el-form ref="form" :rules="rules" :model="form1" label-width="100px">
+
+          <el-form-item label="客户已付款">
+            <el-col :span="20">
+              <el-input v-model="form1.paid"
+                        :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="客户未付款">
+            <el-col :span="20">
+              <el-input v-model="form1.unpaid"
+                        :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="cusStaDialogVisible = false">关 闭</el-button>
+  </span>
+      </el-dialog>
+
     </div>
 </template>
 
@@ -165,6 +195,7 @@
                     }
                 ],
                 centerDialogVisible:false,
+                cusStaDialogVisible:false,
                 form:{
                     id:'',
                     no:'',
@@ -174,6 +205,10 @@
                     phone:'',
                     sex:'0',
                     roleId:''
+                },
+                form1:{
+                  paid:'',
+                  unpaid:''
                 },
                 rules: {
                     no: [
@@ -307,6 +342,17 @@
                 });
 
             },
+           cusSta(){
+             this.$axios.post(this.$httpUrl+'/record/paid').then(res=>res.data).then(res=>{
+               console.log(res)
+               this.form1.paid=res;
+             })
+             this.$axios.post(this.$httpUrl+'/record/unpaid').then(res=>res.data).then(res=>{
+               console.log(res)
+               this.form1.unpaid=res;
+             })
+             this.cusStaDialogVisible=true
+           },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
                 this.pageNum=1
