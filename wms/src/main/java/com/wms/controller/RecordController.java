@@ -219,6 +219,39 @@ public class RecordController {
         return price;
     }
 
+    @PostMapping("/paid1")
+    public Float paid1(@RequestBody User user){
+        float price = 0;
+        LambdaQueryWrapper<Record> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.between(Record::getState,'2','4');
+        lambdaQueryWrapper.eq(Record::getUserid,user.getId());
+        List<Record> sta = recordMapper.selectList(lambdaQueryWrapper);
+        for(Record i:sta){
+            if(i.getTotalprice()!=null)
+            {
+                price+=Float.parseFloat(i.getTotalprice());
+            }
+        }
+        return price;
+    }
+
+    @PostMapping("/unpaid1")
+    public Float unpaid1(@RequestBody User user){
+        float price = 0;
+        LambdaQueryWrapper<Record> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.le(Record::getState,'1');
+        lambdaQueryWrapper.eq(Record::getUserid,user.getId());
+        List<Record> sta = recordMapper.selectList(lambdaQueryWrapper);
+        for(Record i:sta){
+            if(i.getTotalprice()!=null)
+            {
+                price+=Float.parseFloat(i.getTotalprice());
+            }
+        }
+        return price;
+    }
+
+
 
 }
 

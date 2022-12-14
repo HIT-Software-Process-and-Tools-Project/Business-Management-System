@@ -205,7 +205,8 @@ public class UserController {
             lambdaQueryWrapper.eq(User::getSex,sex);
         }
         if(StringUtils.isNotBlank(roleId)){
-            lambdaQueryWrapper.eq(User::getRoleId,roleId).or().eq(User::getRoleId,query.getI());
+            //lambdaQueryWrapper.eq(User::getRoleId,roleId).or().eq(User::getRoleId,query.getI());
+            lambdaQueryWrapper.between(User::getRoleId,roleId,query.getI());
         }
 
         //IPage result = userService.pageC(page);

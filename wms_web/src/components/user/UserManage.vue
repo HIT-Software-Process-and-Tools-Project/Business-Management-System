@@ -15,7 +15,7 @@
             <el-button type="success" @click="resetParam">重置</el-button>
 
             <el-button type="primary" style="margin-left: 5px;" @click="add">新增</el-button>
-            <el-button type="warning" style="margin-left: 5px;" @click="cusSta">客户资金统计</el-button>
+            <el-button type="warning" style="margin-left: 5px;" @click="cusSta">总资金统计</el-button>
         </div>
         <el-table :data="tableData"
                   :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
@@ -58,6 +58,7 @@
                     >
                         <el-button slot="reference" size="small" type="danger" >删除</el-button>
                     </el-popconfirm>
+                    <el-button size="small" type="warning" style="margin-left: 5px;" @click="cusSta1(scope.row)">统计</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -72,7 +73,7 @@
         </el-pagination>
 
         <el-dialog
-                title="提示"
+                title="客户管理"
                 :visible.sync="centerDialogVisible"
                 width="30%"
                 center>
@@ -353,6 +354,17 @@
              })
              this.cusStaDialogVisible=true
            },
+          cusSta1(row){
+            this.$axios.post(this.$httpUrl+'/record/paid1',{id:row.id}).then(res=>res.data).then(res=>{
+              console.log(res)
+              this.form1.paid=res;
+            })
+            this.$axios.post(this.$httpUrl+'/record/unpaid1',{id:row.id}).then(res=>res.data).then(res=>{
+              console.log(res)
+              this.form1.unpaid=res;
+            })
+            this.cusStaDialogVisible=true
+          },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
                 this.pageNum=1
