@@ -237,7 +237,11 @@ export default {
         userid:'',
         adminId:'',
         remark:'',
-        action:'1'
+        action:'1',
+        state:'',
+        iswholesale:'',
+        totalprice:'',
+        profit:''
       },
       rules1: {
 
@@ -363,6 +367,8 @@ export default {
       this.form1.goods = this.currentRow.id
       this.form1.adminId=this.user.id
       this.form1.action='1'
+      this.form1.state=4
+      this.form1.iswholesale=1
     },
     outGoods(){
       if(!this.currentRow.id){
@@ -378,7 +384,8 @@ export default {
       this.form1.goods = this.currentRow.id
       this.form1.adminId=this.user.id
       this.form1.action='2'
-
+      this.form1.state=0
+      this.form1.iswholesale=1
     },
     selectUser(){
       this.innerVisible=true
