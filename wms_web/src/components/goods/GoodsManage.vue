@@ -346,7 +346,6 @@ export default {
       })
     },
     add(){
-
       this.centerDialogVisible = true
       this.$nextTick(()=>{
         this.resetForm()
@@ -363,7 +362,6 @@ export default {
       this.$nextTick(()=>{
         this.resetInForm()
       })
-
       this.form1.goodsname = this.currentRow.name
       this.form1.goods = this.currentRow.id
       this.form1.userId=4
@@ -380,7 +378,6 @@ export default {
       this.$nextTick(()=>{
         this.resetInForm()
       })
-
       this.form1.goodsname = this.currentRow.name
       this.form1.goods = this.currentRow.id
       this.form1.userId=2
@@ -424,7 +421,7 @@ export default {
           });
           this.centerDialogVisible = false
           this.loadPost()
-          this. resetForm()
+          this.resetForm()
         }else{
           this.$message({
             message: '操作失败！',
