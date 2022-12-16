@@ -15,7 +15,9 @@
             <el-button type="success" @click="resetParam">重置</el-button>
 
             <el-button type="primary" style="margin-left: 5px;" @click="add">新增</el-button>
+          <el-divider></el-divider>
         </div>
+        <span>管理员列表</span>
         <el-table :data="tableData"
                   :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
                   border

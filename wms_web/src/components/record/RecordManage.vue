@@ -23,8 +23,9 @@
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
 
-
+      <el-divider></el-divider>
     </div>
+    <span>销售单列表</span>
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border

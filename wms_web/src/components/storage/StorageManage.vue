@@ -3,14 +3,14 @@
     <div style="margin-bottom: 5px;">
       <el-input v-model="name" placeholder="请输入物品名" suffix-icon="el-icon-search" style="width: 200px;"
                 @keyup.enter.native="loadPost"></el-input>
-      <!--<el-select v-model="storage" placeholder="请选择仓库" style="margin-left: 5px;">
+      <el-select v-model="storage" placeholder="请选择仓库" style="margin-left: 5px;">
         <el-option
             v-for="item in storageData"
             :key="item.id"
             :label="item.name"
             :value="item.id">
         </el-option>
-      </el-select>-->
+      </el-select>
       <el-select v-model="goodstype" placeholder="请选择分类" style="margin-left: 5px;">
         <el-option
             v-for="item in goodstypeData"
@@ -27,72 +27,44 @@
             <el-button type="primary" style="margin-left: 5px;" @click="inGoods" v-if="user.roleId!=2">入库</el-button>
             <el-button type="primary" style="margin-left: 5px;" @click="outGoods" v-if="user.roleId!=2">出库</el-button>
     </div>
-    <span>大库</span>
-    <el-table :data="tableData"
-              :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
-              border
-              highlight-current-row
-              @current-change="selectCurrentChange"
-    >
-      <el-table-column prop="id" label="ID" width="60">
-      </el-table-column>
-      <el-table-column prop="name" label="物品名" width="100">
-      </el-table-column>
-      <el-table-column prop="storage" label="仓库" width="100" :formatter="formatStorage">
-      </el-table-column>
-      <el-table-column prop="goodstype" label="分类" width="100" :formatter="formatGoodstype">
-      </el-table-column>
-      <el-table-column prop="count" label="数量" width="100">
-      </el-table-column>
-      <el-table-column prop="remark" label="备注">
-      </el-table-column>
-      <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
-        <template slot-scope="scope">
-          <el-button size="small" type="success" @click="mod1(scope.row)">货品调度</el-button>
-          <!--          <el-popconfirm
-                        title="确定出库吗？"
-                        @confirm="del(scope.row.id)"
-                        style="margin-left: 5px;"
-                    >
-                      <el-button slot="reference" size="small" type="danger" >销售出库</el-button>
-                    </el-popconfirm>-->
-          <el-button size="small" type="warning" style="margin-left: 5px;" @click="mod(scope.row)">库存盘点</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <span>门店库房</span>
-    <el-table :data="tableData"
-              :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
-              border
-              highlight-current-row
-              @current-change="selectCurrentChange"
-    >
-      <el-table-column prop="id" label="ID" width="60">
-      </el-table-column>
-      <el-table-column prop="name" label="物品名" width="100">
-      </el-table-column>
-      <el-table-column prop="storage" label="仓库" width="100" :formatter="formatStorage">
-      </el-table-column>
-      <el-table-column prop="goodstype" label="分类" width="100" :formatter="formatGoodstype">
-      </el-table-column>
-      <el-table-column prop="count" label="数量" width="100">
-      </el-table-column>
-      <el-table-column prop="remark" label="备注">
-      </el-table-column>
-      <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
-        <template slot-scope="scope">
-          <el-button size="small" type="success" @click="mod1(scope.row)">货品调度</el-button>
-          <!--          <el-popconfirm
-                        title="确定出库吗？"
-                        @confirm="del(scope.row.id)"
-                        style="margin-left: 5px;"
-                    >
-                      <el-button slot="reference" size="small" type="danger" >销售出库</el-button>
-                    </el-popconfirm>-->
-          <el-button size="small" type="warning" style="margin-left: 5px;" @click="mod(scope.row)">库存盘点</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-divider></el-divider>
+    <div>
+      <span>货品列表</span>
+      <el-table :data="tableData"
+                :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
+                border
+                highlight-current-row
+                @current-change="selectCurrentChange"
+      >
+        <el-table-column prop="id" label="ID" width="60">
+        </el-table-column>
+        <el-table-column prop="name" label="物品名" width="120">
+        </el-table-column>
+        <el-table-column prop="storage" label="仓库" width="100" :formatter="formatStorage">
+        </el-table-column>
+        <el-table-column prop="goodstype" label="分类" width="120" :formatter="formatGoodstype">
+        </el-table-column>
+        <el-table-column prop="count" label="数量" width="120">
+        </el-table-column>
+        <el-table-column prop="remark" label="备注">
+        </el-table-column>
+        <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
+          <template slot-scope="scope">
+            <el-button size="small" type="success" @click="mod1(scope.row)">货品调度</el-button>
+            <!--          <el-popconfirm
+                          title="确定出库吗？"
+                          @confirm="del(scope.row.id)"
+                          style="margin-left: 5px;"
+                      >
+                        <el-button slot="reference" size="small" type="danger" >销售出库</el-button>
+                      </el-popconfirm>-->
+            <el-button size="small" type="warning" style="margin-left: 5px;" @click="mod(scope.row)">库存盘点</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+
     <el-pagination style="text-align:right"
                    @size-change="handleSizeChange"
                    @current-change="handleCurrentChange"
@@ -128,11 +100,13 @@
             </el-select>
           </el-col>
         </el-form-item>
+
         <el-form-item label="数量" prop="count">
           <el-col :span="20">
             <el-input v-model="form.count"></el-input>
           </el-col>
         </el-form-item>
+
         <el-form-item label="备注" prop="remark">
           <el-col :span="20">
             <el-input type="textarea" v-model="form.remark"></el-input>
@@ -140,9 +114,9 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="save">确 定</el-button>
-  </span>
+      <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+     </span>
     </el-dialog>
 
     <el-dialog
@@ -152,7 +126,6 @@
         center>
 
       <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-
         <el-form-item label="仓库" prop="storage">
           <el-col :span="20">
             <el-select v-model="form.storage" placeholder="请选择仓库" style="margin-left: 5px;">
@@ -170,7 +143,6 @@
             <el-input v-model="form.count"></el-input>
           </el-col>
         </el-form-item>
-
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button @click="diaoduDialogVisible = false">取 消</el-button>
@@ -245,12 +217,12 @@ export default {
       user : JSON.parse(sessionStorage.getItem('CurUser')),
       storageData:[],
       goodstypeData:[],
-      tableData: [],
+      table1Data: [],
       pageSize:10,
       pageNum:1,
       total:0,
       name:'',
-      storage:'1',
+      storage:'',
       goodstype:'',
       centerDialogVisible:false,
       inDialogVisible:false,
