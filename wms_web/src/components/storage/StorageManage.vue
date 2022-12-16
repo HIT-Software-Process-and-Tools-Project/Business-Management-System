@@ -101,7 +101,7 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-col :span="20">
-            <el-input type="textarea" v-model="form.remark"></el-input>
+            <el-input v-model="form.remark"></el-input>
           </el-col>
         </el-form-item>
       </el-form>
@@ -180,9 +180,14 @@
             <el-input v-model="form1.count"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <el-form-item label="折扣" prop="remark">
           <el-col :span="20">
-            <el-input type="textarea" v-model="form1.remark"></el-input>
+            <el-input v-model="form1.remark"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="赠送数量" prop="count">
+          <el-col :span="20">
+            <el-input v-model="form2.num"></el-input>
           </el-col>
         </el-form-item>
       </el-form>
@@ -241,12 +246,15 @@ export default {
         username:'',
         userid:'',
         adminId:'',
-        remark:'',
+        remark:'1',
         action:'1',
         state:'',
         iswholesale:'',
         totalprice:'',
         profit:''
+      },
+      form2:{
+        num:'0'
       },
       rules1: {
         count: [
@@ -457,6 +465,7 @@ export default {
 
     },
     doInGoods(){
+      this.form1.remark=this.form2.num+this.form1.remark
       this.$axios.post(this.$httpUrl+'/record/save',this.form1).then(res=>res.data).then(res=>{
         console.log(res)
         if(res.code==200){

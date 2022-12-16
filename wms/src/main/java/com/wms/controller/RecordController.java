@@ -90,14 +90,21 @@ public class RecordController {
     public Result save(@RequestBody Record record){
         Goods goods = goodsService.getById(record.getGoods());
         int n = record.getCount();
+        float discount=Float.parseFloat(record.getRemark());
+        int exCount=(int)discount/10;
+        discount=discount%1;
+        if(discount==0)
+            discount+=1;
+        System.out.println(discount);
+        record.setRemark("");
         //出库
         if("2".equals(record.getAction())){
             //n = -n;
-            record.setCount(n);
-            int num = goods.getCount()-n;
+            record.setCount(n+exCount);
+            int num = goods.getCount()-n-exCount;
             goods.setCount(num);
-            float price=record.getCount()*Float.parseFloat(goods.getWholesaleprice());
-            float jprice=record.getCount()*(Float.parseFloat(goods.getWholesaleprice())-Float.parseFloat(goods.getPurchaseprice()));
+            float price=n*Float.parseFloat(goods.getWholesaleprice())*discount;
+            float jprice=price-(n+exCount)*Float.parseFloat(goods.getPurchaseprice());
             String p=Float.toString(price);
             String jp=Float.toString(jprice);
             record.setTotalprice(p);
@@ -306,8 +313,6 @@ public class RecordController {
         }
 
         per[0]=new BigDecimal(100*price/allPrice).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
-        System.out.println(price);
-        System.out.println(allPrice);
         per[1]=new BigDecimal(100.0*uCus.size()/cus.size()).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         per[2]=new BigDecimal(100*count/allCount).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 
