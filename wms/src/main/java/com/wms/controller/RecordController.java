@@ -315,6 +315,7 @@ public class RecordController {
         per[0]=new BigDecimal(100*price/allPrice).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         per[1]=new BigDecimal(100.0*uCus.size()/cus.size()).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         per[2]=new BigDecimal(100*count/allCount).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        System.out.println("this is feature_4");
 
 
         return per;
