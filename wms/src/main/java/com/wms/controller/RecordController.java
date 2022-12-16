@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -249,6 +250,69 @@ public class RecordController {
             }
         }
         return price;
+    }
+
+    @PostMapping("/percent")
+    public float[] percent(@RequestBody User user){
+        float[] per={0,1,2};//金额、客户、数量
+        List<String> cus=new ArrayList<>();
+        List<String> uCus=new ArrayList<>();
+        String nowCus;
+        float price=0;
+        float allPrice=0;
+        float count=0;
+        float allCount=0;
+
+        LambdaQueryWrapper<Record> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.ge(Record::getId,"1");
+        lambdaQueryWrapper.ne(Record::getState,"4");
+        List<Record> all = recordMapper.selectList(lambdaQueryWrapper);
+        for(Record i:all){
+            if(i.getTotalprice()!=null)
+            {
+                allPrice+=Float.parseFloat(i.getTotalprice());
+            }
+            if(i.getUserid()!=null)
+            {
+                nowCus=i.getUserid().toString();
+                if(!cus.contains(nowCus))
+                    cus.add(nowCus);
+            }
+            if(i.getCount()!=null)
+            {
+                allCount+=(float)i.getCount();
+            }
+        }
+
+        LambdaQueryWrapper<Record> lambdaQuery = new LambdaQueryWrapper();
+        lambdaQuery.eq(Record::getAdminId,user.getId());
+        lambdaQuery.ne(Record::getState,"4");
+        List<Record> uAll = recordMapper.selectList(lambdaQuery);
+        for(Record i:uAll){
+            if(i.getTotalprice()!=null)
+            {
+                price+=Float.parseFloat(i.getTotalprice());
+            }
+            if(i.getUserid()!=null)
+            {
+                nowCus=i.getUserid().toString();
+                if(!uCus.contains(nowCus))
+                    uCus.add(nowCus);
+            }
+            if(i.getCount()!=null)
+            {
+                count+=(float)i.getCount();
+            }
+        }
+
+        per[0]=new BigDecimal(100*price/allPrice).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        System.out.println(price);
+        System.out.println(allPrice);
+        per[1]=new BigDecimal(100.0*uCus.size()/cus.size()).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        per[2]=new BigDecimal(100*count/allCount).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+
+
+        return per;
     }
 
 
