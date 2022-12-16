@@ -19,6 +19,14 @@
             :value="item.id">
         </el-option>
       </el-select>
+      <el-select v-model="state" placeholder="请选择订单类型" style="margin-left: 5px;">
+        <el-option
+            v-for="item in stateData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+      </el-select>
 
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
@@ -30,7 +38,7 @@
               border
               show-summary
     >
-      <el-table-column prop="id" label="订单ID" width="60">
+      <el-table-column prop="id" sortable label="订单ID" width="90">
       </el-table-column>
       <el-table-column prop="iswholesale" label="订单类型" width="90">
         <template slot-scope="scope">
@@ -53,11 +61,11 @@
 <!--      </el-table-column>-->
 <!--      <el-table-column prop="count" label="数量" width="50">-->
 <!--      </el-table-column>-->
-      <el-table-column prop="totalprice" label="总金额" width="70">
+      <el-table-column prop="totalprice" sortable label="总金额" width="90">
       </el-table-column>
-      <el-table-column prop="profit" label="毛利润" width="60">
+      <el-table-column prop="profit" sortable label="毛利润" width="90">
       </el-table-column>
-      <el-table-column prop="createtime" label="创建订单时间" width="160">
+      <el-table-column prop="createtime" sortable label="创建订单时间" width="160">
       </el-table-column>
       <el-table-column prop="remark" label="备注" width="200">
       </el-table-column>
@@ -70,6 +78,7 @@
                   (scope.row.state == 2 ? '已收货' :
                       (scope.row.state == 3 ? '已退货' :'已进货')))}}</el-tag>
         </template>
+
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="330">
         <template  slot-scope="scope">
@@ -112,6 +121,7 @@ export default {
       user : JSON.parse(sessionStorage.getItem('CurUser')),
       storageData:[],
       goodstypeData:[],
+      stateData:[],
       tableData: [],
       pageSize:10,
       pageNum:1,
@@ -228,6 +238,13 @@ export default {
 
       return temp && temp.name
     },
+    formatState(row){
+      let temp =  this.stateData.find(item=>{
+        return item.id == row.state
+      })
+
+      return temp && temp.name
+    },
     resetForm() {
       this.$refs.form.resetFields();
     },
@@ -246,6 +263,7 @@ export default {
       this.name=''
       this.storage=''
       this.goodstype=''
+      this.state=''
     },
     loadStorage(){
       this.$axios.get(this.$httpUrl+'/storage/list').then(res=>res.data).then(res=>{
@@ -263,6 +281,17 @@ export default {
         console.log(res)
         if(res.code==200){
           this.goodstypeData=res.data
+        }else{
+          alert('获取数据失败')
+        }
+
+      })
+    },
+    loadState(){
+      this.$axios.get(this.$httpUrl+'/state/list').then(res=>res.data).then(res=>{
+        console.log(res)
+        if(res.code==200){
+          this.stateData=res.data
         }else{
           alert('获取数据失败')
         }
@@ -295,6 +324,7 @@ export default {
   beforeMount() {
     this.loadStorage()
     this.loadGoodstype()
+    this.loadState()
     this.loadPost()
 
   },

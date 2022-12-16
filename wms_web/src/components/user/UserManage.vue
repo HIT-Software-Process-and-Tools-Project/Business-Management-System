@@ -21,7 +21,7 @@
                   border
                   show-summary
         >
-            <el-table-column prop="id" label="ID" width="60">
+            <el-table-column prop="id" sortable label="ID" width="60">
             </el-table-column>
             <el-table-column prop="no" label="账号" width="180">
             </el-table-column>

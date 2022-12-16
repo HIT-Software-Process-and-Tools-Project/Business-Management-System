@@ -34,7 +34,7 @@
               show-summary
               @current-change="selectCurrentChange"
     >
-      <el-table-column prop="id" label="ID" width="60">
+      <el-table-column prop="id" sortable label="ID" width="60">
       </el-table-column>
       <el-table-column prop="name" label="物品名" width="100">
       </el-table-column>
