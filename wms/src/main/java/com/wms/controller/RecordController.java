@@ -17,6 +17,7 @@ import com.wms.mapper.GoodsMapper;
 import com.wms.mapper.RecordMapper;
 import com.wms.service.GoodsService;
 import com.wms.service.RecordService;
+import com.wms.service.UserService;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,9 @@ public class RecordController {
 
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private UserService userService;
 
     @Resource
     private RecordMapper recordMapper;
@@ -137,6 +141,32 @@ public class RecordController {
 
     @PostMapping("/update")
     public Result update(@RequestBody Record record){
+        return recordService.updateById(record)?Result.suc():Result.fail();
+    }
+
+    @PostMapping("/update1")
+    public Result update1(@RequestBody Record record){
+        String remark=record.getRemark();
+        if(StringUtils.isNotBlank(remark) && !"null".equals(remark)&&record.getUserid()!=null){
+            User user=userService.getById(record.getUserid());
+            float vip=Float.parseFloat(user.getVip())+Float.parseFloat(remark);
+            user.setVip(Float.toString(vip));
+            userService.updateById(user);
+        }
+        record.setRemark("");
+        return recordService.updateById(record)?Result.suc():Result.fail();
+    }
+
+    @PostMapping("/update2")
+    public Result update2(@RequestBody Record record){
+        String remark=record.getRemark();
+        if(StringUtils.isNotBlank(remark) && !"null".equals(remark)&&record.getUserid()!=null){
+            User user=userService.getById(record.getUserid());
+            float deposit=Float.parseFloat(user.getDeposit())-Float.parseFloat(remark);
+            user.setDeposit(Float.toString(deposit));
+            userService.updateById(user);
+        }
+        record.setRemark("");
         return recordService.updateById(record)?Result.suc():Result.fail();
     }
 
