@@ -194,7 +194,7 @@ export default {
         }).catch(() => {
           this.$message({type: 'info',message: '已取消删除' });
         })
-        this.$axios.get(this.$httpUrl+'/record/del?id='+id).then(res=>res.data).then(res=>{
+        this.$axios.get(this.$httpUrl+'/record/del?id='+id.id).then(res=>res.data).then(res=>{
           console.log(res)
           if(res.code==200){
 
