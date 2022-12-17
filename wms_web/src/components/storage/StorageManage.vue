@@ -46,7 +46,7 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注">
       </el-table-column>
-      <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
+      <el-table-column fixed="right" prop="operate" label="操作" v-if="user.roleId!=2" width="200">
         <template slot-scope="scope">
           <el-button size="small" type="success" @click="mod1(scope.row)">货品调度</el-button>
           <!--          <el-popconfirm

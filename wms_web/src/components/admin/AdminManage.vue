@@ -48,7 +48,7 @@
             </el-table-column>
             <el-table-column prop="phone" label="电话" width="180">
             </el-table-column>
-            <el-table-column prop="operate" label="操作">
+            <el-table-column fixed="right" prop="operate" label="操作" width="140">
                 <template slot-scope="scope">
                     <el-button size="small" type="success" @click="mod(scope.row)">编辑</el-button>
                     <el-popconfirm
