@@ -204,6 +204,11 @@
               <el-input v-model="form2.deposit"></el-input>
             </el-col>
           </el-form-item>
+          <el-form-item label="存款积分比">
+            <el-col :span="20">
+              <el-input v-model="form2.proportion"></el-input>
+            </el-col>
+          </el-form-item>
 
 
         </el-form>
@@ -462,13 +467,14 @@
             })
           },
           exchange(){
-              this.form.deposit+=this.form.vip/this.form2.proportion
+              this.form.deposit=1*this.form.deposit+1*this.form.vip/this.form2.proportion
               this.form.vip = '0'
               this.doMod()
               this.proDialogVisible=false
           },
           exchange1(){
-            this.form.deposit+=this.form2.deposit/1.0
+            this.form.deposit=1*this.form.deposit+1*this.form2.deposit
+            this.form.vip=1*this.form.vip+1*this.form2.deposit/this.form2.proportion
             this.doMod()
             this.depDialogVisible=false
           },
