@@ -45,6 +45,18 @@
         </el-descriptions-item>
       </el-descriptions>
 
+            </el-descriptions-item>
+        </el-descriptions>
+      <h1 style="font-size: 30px;">&emsp;</h1>
+      <h1 style="font-size: 25px;">个人销售统计&emsp;&emsp;</h1>
+      <h2 style="font-size: 20px;" >销售总额占比&emsp;&emsp;&nbsp;&nbsp;客户数量占比&emsp;&emsp;&nbsp;&nbsp;销售数量占比&emsp;&emsp;&nbsp;&nbsp;</h2>
+      <template>
+        <div class="demo-progress">
+          <el-progress type="circle" :percentage=form.records color="#67C23A"/>
+          <el-progress type="circle" :percentage=form.customers color="#409EFF"/>
+          <el-progress type="circle" :percentage=form.counts color="#E6A23C"/>
+        </div>
+      </template>
       <DateUtils></DateUtils>
     </div>
 
@@ -99,6 +111,7 @@
   </div>
 </template>
 
+
 <script>
 import DateUtils from "./DateUtils";
 
@@ -119,10 +132,37 @@ export default {
       }
       this.$axios.get(this.$httpUrl+"/user/findByNo?no="+this.form.no).then(res=>res.data).then(res=>{
         if(res.code!=200){
+            return {
+                user:{},
+                form:{
+                  records:10.23,
+                  customers:'',
+                  counts:''
+                }
+            }
+        },
+        computed:{
 
           callback()
         }else{
           callback(new Error('账号已经存在'));
+        },
+        methods:{
+            init(){
+                this.user = JSON.parse(sessionStorage.getItem('CurUser'))
+            },
+            loadPost(){
+              this.$axios.post(this.$httpUrl+'/record/percent',{id:this.user.id}).then(res=>res.data).then(res=>{
+                console.log(res)
+                this.form.records=res[0];
+                this.form.customers=res[1];
+                this.form.counts=res[2];
+              })
+            }
+        },
+        created(){
+            this.init();
+            this.loadPost()
         }
       })
     };
@@ -256,7 +296,14 @@ export default {
 .el-descriptions {
   width: 90%;
 
-  margin: 0 auto;
-  text-align: center;
-}
+        margin: 0 auto;
+        text-align: center;
+    }
+    .demo-progress .el-progress--line {
+      margin-bottom: 15px;
+      width: 350px;
+    }
+    .demo-progress .el-progress--circle {
+      margin-right: 50px;
+    }
 </style>

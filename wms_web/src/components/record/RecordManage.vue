@@ -47,21 +47,21 @@
               disable-transitions>{{scope.row.iswholesale == 0 ? '零售订单' : '批发订单'}}</el-tag>
         </template>
       </el-table-column>
-<!--      <el-table-column prop="goodsname" label="物品名" width="80">-->
-<!--      </el-table-column>-->
+      <el-table-column prop="goodsname" label="物品名" width="80">
+      </el-table-column>
 <!--      <el-table-column prop="storagename" label="仓库" width="120">-->
 <!--      </el-table-column>-->
 <!--      <el-table-column prop="goodstypename" label="分类" width="80">-->
 <!--      </el-table-column>-->
-      <el-table-column prop="username" label="客户ID" width="80">
+      <el-table-column prop="username" label="客户" width="80">
       </el-table-column>
       <el-table-column prop="adminname" label="操作人" width="90">
       </el-table-column>
 <!--      <el-table-column prop="username" label="申请人" width="90">-->
 <!--      </el-table-column>-->
-<!--      <el-table-column prop="count" label="数量" width="50">-->
-<!--      </el-table-column>-->
-      <el-table-column prop="totalprice" sortable label="总金额" width="90">
+      <el-table-column prop="count" label="数量" width="50">
+      </el-table-column>
+      <el-table-column prop="totalprice" label="总金额" width="70">
       </el-table-column>
       <el-table-column prop="profit" sortable label="毛利润" width="90">
       </el-table-column>
@@ -84,7 +84,7 @@
         <template  slot-scope="scope">
 <!--          <el-button type="info" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">详情</el-button>-->
           <el-button type="primary" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">审核</el-button>
-          <el-button type="success" style="margin-left: 5px;" size="small" @click="mod(scope.row,1)">收款</el-button>
+          <el-button type="success" style="margin-left: 5px;" size="small" @click="rec(scope.row,1)">收款</el-button>
           <el-button type="warning" style="margin-left: 5px;" size="small" @click="mod(scope.row,2)">退货</el-button>
           <!--                <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>-->
           <el-button slot="reference" size="small" type="danger" style="margin-left: 5px;" @click="del(scope.row,0)">删除</el-button>
@@ -109,6 +109,35 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
     </el-pagination>
+
+    <el-dialog
+        title="收银台"
+        :visible.sync="recDialogVisible"
+        width="30%"
+        center>
+
+      <el-form ref="form" :rules="rules" :model="form1" label-width="100px">
+
+        <el-form-item label="客户应付款">
+          <el-col :span="20">
+            <el-input v-model="form.totalprice"
+                      :disabled="true"></el-input>
+          </el-col>
+        </el-form-item>
+<!--        <el-form-item label="客户实付款">
+          <el-col :span="20">
+            <el-input v-model="form1.totalprice"></el-input>
+          </el-col>
+        </el-form-item>-->
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="recDialogVisible = false">关 闭</el-button>
+          <el-button type="success" @click=doRec>付 款</el-button>
+          <el-button type="danger" @click=unRec>赊 账</el-button>
+  </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -130,6 +159,7 @@ export default {
       storage:'',
       goodstype:'',
       centerDialogVisible:false,
+      recDialogVisible:false,
       form:{
         id:'',
         iswholesale:'',
@@ -140,8 +170,12 @@ export default {
         remark:'',
         state:'',
         totalprice:'',
-        profit:''
+        profit:'',
+        userid:''
       },
+      form1:{
+        totalprice: ''
+      }
     }
   },
   methods:{
@@ -163,6 +197,8 @@ export default {
           this.form.count=row.count;
           this.form.remark=row.remark;
           this.form.state=row.state;
+          this.form.totalprice=row.totalprice;
+          this.form.profit=row.profit;
         })
         this.$nextTick(()=>{
           this.$axios.post(this.$httpUrl+'/record/update',this.form).then(res=>res.data).then(res=>{
@@ -185,6 +221,90 @@ export default {
         })
       }
     },
+    rec(row,i){
+      if(row.state!=i){
+        this.$message({
+          message: '不在该销售阶段',
+          type: 'error'
+        });
+      }
+      else{
+        //this.centerDialogVisible = true
+        this.recDialogVisible=true
+        this.$nextTick(()=>{
+          this.form.id=row.id;
+          this.form.name=row.name;
+          this.form.storge=row.storge;
+          this.form.goodstype=row.goodstype;
+          this.form.count=row.count;
+          this.form.remark=row.remark;
+          this.form.state=row.state;
+          this.form.totalprice=row.totalprice;
+          this.form.profit=row.profit;
+          this.form.userid=row.userid
+        })
+
+      }
+    },
+    doRec(){
+      this.form.remark=this.form.totalprice/10
+      this.form.state+=1;
+      this.$nextTick(()=>{
+        this.$axios.post(this.$httpUrl+'/record/update1',this.form).then(res=>res.data).then(res=>{
+          console.log(res)
+          if(res.code==200){
+            this.$message({
+              message: '操作成功！',
+              type: 'success'
+            });
+            this.loadPost()
+            this.resetForm()
+          }else{
+            this.$message({
+              message: '操作失败！',
+              type: 'error'
+            });
+          }
+        })
+      })
+      this.recDialogVisible = false
+    },
+    unRec(){
+      this.form.remark=this.form.totalprice
+      if(this.form.userid==null){
+        this.form.state=-1;
+        this.$message({
+          message: '当前用户非会员，不可赊账！',
+          type: 'error'
+        });
+        this.loadPost()
+        this.resetForm()
+      }
+      else{
+        this.form.state+=1;
+        this.$nextTick(()=>{
+          this.$axios.post(this.$httpUrl+'/record/update2',this.form).then(res=>res.data).then(res=>{
+            console.log(res)
+            if(res.code==200){
+              this.$message({
+                message: '操作成功！',
+                type: 'success'
+              });
+              this.loadPost()
+              this.resetForm()
+            }else{
+              this.$message({
+                message: '操作失败！',
+                type: 'error'
+              });
+            }
+          })
+        })
+      }
+
+      this.recDialogVisible = false
+    },
+
     del(id,i){
       console.log(id,i)
       if(id.state!=i){
@@ -203,7 +323,7 @@ export default {
         }).catch(() => {
           this.$message({type: 'info',message: '已取消删除' });
         })
-        this.$axios.get(this.$httpUrl+'/record/del?id='+id).then(res=>res.data).then(res=>{
+        this.$axios.get(this.$httpUrl+'/record/del?id='+id.id).then(res=>res.data).then(res=>{
           console.log(res)
           if(res.code==200){
 
