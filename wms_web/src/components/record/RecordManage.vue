@@ -248,7 +248,7 @@ export default {
     },
     doRec(){
       this.form.remark=this.form.totalprice/10
-      this.form.state+=1;
+      this.form.state=2;
       this.$nextTick(()=>{
         this.$axios.post(this.$httpUrl+'/record/update1',this.form).then(res=>res.data).then(res=>{
           console.log(res)
@@ -272,7 +272,7 @@ export default {
     unRec(){
       this.form.remark=this.form.totalprice
       if(this.form.userid==null){
-        this.form.state=-1;
+        this.form.state=1;
         this.$message({
           message: '当前用户非会员，不可赊账！',
           type: 'error'
@@ -281,7 +281,7 @@ export default {
         this.resetForm()
       }
       else{
-        this.form.state+=1;
+        this.form.state=2;
         this.$nextTick(()=>{
           this.$axios.post(this.$httpUrl+'/record/update2',this.form).then(res=>res.data).then(res=>{
             console.log(res)
