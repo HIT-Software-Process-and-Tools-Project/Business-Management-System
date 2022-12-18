@@ -21,10 +21,10 @@
       </el-select>
       <el-select v-model="state" placeholder="请选择订单类型" style="margin-left: 5px;">
         <el-option
-            v-for="item in stateData"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
+            v-for="item in states"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
         </el-option>
       </el-select>
 
@@ -151,6 +151,24 @@ export default {
       storageData:[],
       goodstypeData:[],
       stateData:[],
+      states:[
+        {
+          value: '0',
+          label: '已保存'
+        }, {
+          value: '1',
+          label: '已审核'
+        },{
+          value: '2',
+          label: '已收款'
+        },{
+          value: '3',
+          label: '已退货'
+        },{
+          value: '4',
+          label: '已进货'
+        }
+      ],
       tableData: [],
       pageSize:10,
       pageNum:1,
@@ -158,6 +176,7 @@ export default {
       name:'',
       storage:'',
       goodstype:'',
+      state:'',
       centerDialogVisible:false,
       recDialogVisible:false,
       form:{
@@ -451,7 +470,7 @@ export default {
       this.$axios.get(this.$httpUrl+'/state/list').then(res=>res.data).then(res=>{
         console.log(res)
         if(res.code==200){
-          this.stateData=res.data
+          this.states=res.data
         }else{
           alert('获取数据失败')
         }
@@ -467,7 +486,8 @@ export default {
           goodstype:this.goodstype+'',
           storage:this.storage+'',
           roleId:this.user.roleId+'',
-          userId:this.user.id+''
+          userId:this.user.id+'',
+          state:this.state+'',
         }
       }).then(res=>res.data).then(res=>{
         console.log(res)
