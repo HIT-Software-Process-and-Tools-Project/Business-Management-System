@@ -45,16 +45,15 @@
         </el-descriptions-item>
       </el-descriptions>
 
-            </el-descriptions-item>
-        </el-descriptions>
+
       <h1 style="font-size: 30px;">&emsp;</h1>
       <h1 style="font-size: 25px;">个人销售统计&emsp;&emsp;</h1>
       <h2 style="font-size: 20px;" >销售总额占比&emsp;&emsp;&nbsp;&nbsp;客户数量占比&emsp;&emsp;&nbsp;&nbsp;销售数量占比&emsp;&emsp;&nbsp;&nbsp;</h2>
       <template>
         <div class="demo-progress">
-          <el-progress type="circle" :percentage=form.records color="#67C23A"/>
-          <el-progress type="circle" :percentage=form.customers color="#409EFF"/>
-          <el-progress type="circle" :percentage=form.counts color="#E6A23C"/>
+          <el-progress type="circle" :percentage=form1.records color="#67C23A"/>
+          <el-progress type="circle" :percentage=form1.customers color="#409EFF"/>
+          <el-progress type="circle" :percentage=form1.counts color="#E6A23C"/>
         </div>
       </template>
       <DateUtils></DateUtils>
@@ -119,7 +118,7 @@ export default {
   name: "Home",
   components: {DateUtils},
   data() {
-    let checkAge = (rule, value, callback) => {
+    /*let checkAge = (rule, value, callback) => {
       if(value>150){
         callback(new Error('年龄输入过大'));
       }else{
@@ -165,9 +164,35 @@ export default {
             this.loadPost()
         }
       })
+    };*/
+    let checkAge = (rule, value, callback) => {
+      if(value>150){
+        callback(new Error('年龄输入过大'));
+      }else{
+        callback();
+      }
+    };
+    let checkDuplicate =(rule,value,callback)=>{
+      if(this.form.id){
+        return callback();
+      }
+      this.$axios.get(this.$httpUrl+"/user/findByNo?no="+this.form.no).then(res=>res.data).then(res=>{
+        if(res.code!=200){
+
+          callback()
+        }else{
+          callback(new Error('账号已经存在'));
+        }
+      })
     };
 
     return {
+      user:{},
+      form1:{
+        records:10.23,
+        customers:'',
+        counts:''
+      },
       tableData: [],
       pageSize:10,
       pageNum:1,
@@ -227,68 +252,80 @@ export default {
     },
     mod() {
       this.centerDialogVisible = true
+    },
+    save(){
+      /*this.$refs.user.validate((valid) => {
+        if (valid) {
+          if(this.user.id){
+            this.doMod();
+          }else{
+            this.doSave();
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });*/
+      this.doMod()
+    },
+    doSave(){
+      this.$axios.post(this.$httpUrl+'/user/save',this.user).then(res=>res.data).then(res=>{
+        console.log(res)
+        if(res.code==200){
+
+          this.$message({
+            message: '操作成功！',
+            type: 'success'
+          });
+          this.centerDialogVisible = false
+          this.loadPost()
+          this. resetForm()
+        }else{
+          this.$message({
+            message: '操作失败！',
+            type: 'error'
+          });
+        }
+
+      })
+    },
+    doMod(){
+      this.$axios.post(this.$httpUrl+'/user/update',this.user).then(res=>res.data).then(res=>{
+        console.log(res)
+        if(res.code==200){
+
+          this.$message({
+            message: '操作成功！',
+            type: 'success'
+          });
+          this.centerDialogVisible = false
+          this.loadPost()
+          this. resetForm()
+        }else{
+          this.$message({
+            message: '操作失败！',
+            type: 'error'
+          });
+        }
+
+      })
+    },
+
+    loadPost(){
+      this.$axios.post(this.$httpUrl+'/record/percent',{id:this.user.id}).then(res=>res.data).then(res=>{
+        console.log(res)
+        this.form1.records=res[0];
+        this.form1.customers=res[1];
+        this.form1.counts=res[2];
+      })
     }
   },
   created() {
     this.init()
+    this.loadPost()
   },
-  save(){
-    this.$refs.user.validate((valid) => {
-      if (valid) {
-        if(this.user.id){
-          this.doMod();
-        }else{
-          this.doSave();
-        }
-      } else {
-        console.log('error submit!!');
-        return false;
-      }
-    });
 
-  },
-  doSave(){
-    this.$axios.post(this.$httpUrl+'/user/save',this.user).then(res=>res.data).then(res=>{
-      console.log(res)
-      if(res.code==200){
 
-        this.$message({
-          message: '操作成功！',
-          type: 'success'
-        });
-        this.centerDialogVisible = false
-        this.loadPost()
-        this. resetForm()
-      }else{
-        this.$message({
-          message: '操作失败！',
-          type: 'error'
-        });
-      }
-
-    })
-  },
-  doMod(){
-    this.$axios.post(this.$httpUrl+'/user/update',this.user).then(res=>res.data).then(res=>{
-      console.log(res)
-      if(res.code==200){
-
-        this.$message({
-          message: '操作成功！',
-          type: 'success'
-        });
-        this.centerDialogVisible = false
-        this.loadPost()
-        this. resetForm()
-      }else{
-        this.$message({
-          message: '操作失败！',
-          type: 'error'
-        });
-      }
-
-    })
-  }
 }
 </script>
 
