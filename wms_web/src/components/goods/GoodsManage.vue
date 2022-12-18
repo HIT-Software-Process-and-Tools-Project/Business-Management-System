@@ -31,9 +31,11 @@
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
               highlight-current-row
+              show-summary
+              :summary-method="getSummaries"
               @current-change="selectCurrentChange"
     >
-      <el-table-column prop="id" label="ID" width="60">
+      <el-table-column prop="id" sortable label="ID" width="60">
       </el-table-column>
       <el-table-column prop="name" label="货品名" width="100">
       </el-table-column>
@@ -53,15 +55,15 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注">
       </el-table-column>
-      <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
+      <el-table-column fixed="right" prop="operate" label="操作" v-if="user.roleId!=2" width="140">
         <template slot-scope="scope">
-          <el-button size="small" type="success" @click="mod(scope.row)">编辑</el-button>
+          <el-button size="small" type="success" style="..." @click="mod(scope.row)">编辑</el-button>
           <el-popconfirm
               title="确定删除吗？"
               @confirm="del(scope.row.id)"
               style="margin-left: 5px;"
           >
-            <el-button slot="reference" size="small" type="danger" >删除</el-button>
+            <el-button slot="reference" size="small" type="danger" style="..." >删除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
@@ -118,17 +120,17 @@
             </el-select>
           </el-col>
         </el-form-item>
-        <el-form-item label="进货价" prop="name">
+        <el-form-item label="进货价" prop="purchaseprice">
           <el-col :span="20">
             <el-input v-model="form.purchaseprice"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="批发价" prop="name">
+        <el-form-item label="批发价" prop="wholesaleprice">
         <el-col :span="20">
           <el-input v-model="form.wholesaleprice"></el-input>
         </el-col>
       </el-form-item>
-        <el-form-item label="零售价" prop="name">
+        <el-form-item label="零售价" prop="retailprice">
           <el-col :span="20">
             <el-input v-model="form.retailprice"></el-input>
           </el-col>
@@ -265,6 +267,15 @@ export default {
         ],
         goodstype:[
           {required: true, message: '请选择分类', trigger: 'blur'}
+        ],
+        purchaseprice: [
+          {required: true, message: '请输入进货价', trigger: 'blur'}
+        ],
+        wholesaleprice: [
+          {required: true, message: '请输入批发价', trigger: 'blur'}
+        ],
+        retailprice: [
+          {required: true, message: '请输入零售价', trigger: 'blur'}
         ],
         count: [
           {required: true, message: '请输入数量', trigger: 'blur'},
@@ -472,6 +483,38 @@ export default {
         }
 
       })
+    },
+    getSummaries(param) {
+      const { columns, data } = param;//这里可以看出，自定义函数会传入每一列，以及数据
+      const sums = [];
+      columns.forEach((column, index) => {//遍历每一列
+        if (index === 0) {
+          sums[index] = "合计";//第一列显示 合计
+          return;
+        }
+        if (index == 7 ) {
+          const values = data.map(item =>//遍历每一行数据，得到相应列的所有数据形成一个新数组
+              Number(item[column.property])
+          );
+          if (!values.every(value => isNaN(value))) {//这里是遍历得到的每一列的值，然后进行计算
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] = sums[index]+"（个）";//可以在合计后的值后面加上相应的单位
+          } else {
+            sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
+          }
+        } else {
+          sums[index] = "";//其他列显示这个自定义内容
+        }
+      });
+
+      return sums;//最后返回合计行的数据
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);

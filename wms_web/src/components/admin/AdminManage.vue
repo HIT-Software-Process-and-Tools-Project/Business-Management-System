@@ -12,54 +12,54 @@
                 </el-option>
             </el-select>
             <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
-            <el-button type="success" @click="resetParam">重置</el-button>
-
+            <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
             <el-button type="primary" style="margin-left: 5px;" @click="add">新增</el-button>
         </div>
-        <el-table :data="tableData"
-                  :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
-                  border
-        >
-            <el-table-column prop="id" label="ID" width="60">
-            </el-table-column>
-            <el-table-column prop="no" label="账号" width="180">
-            </el-table-column>
-            <el-table-column prop="name" label="姓名" width="180">
-            </el-table-column>
-            <el-table-column prop="age" label="年龄" width="80">
-            </el-table-column>
-            <el-table-column prop="sex" label="性别" width="80">
-                <template slot-scope="scope">
-                    <el-tag
-                            :type="scope.row.sex === 1 ? 'primary' : 'success'"
-                            disable-transitions>{{scope.row.sex === 1 ? '男' : '女'}}</el-tag>
-                </template>
-            </el-table-column>
-            <el-table-column prop="roleId" label="角色" width="120">
-                <template slot-scope="scope">
-                  <el-tag
-                      :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : (scope.row.roleId === 2 ? 'warning' : 'success'))"
-                      disable-transitions>{{scope.row.roleId === 0 ? '经理' :
-                      (scope.row.roleId === 1 ? '仓库管理员' :
-                          (scope.row.roleId === 2 ? '售货员' :
-                              (scope.row.roleId === 3 ? '批发客户' : '零售客户')))}}</el-tag>
-                </template>
-            </el-table-column>
-            <el-table-column prop="phone" label="电话" width="180">
-            </el-table-column>
-            <el-table-column prop="operate" label="操作">
-                <template slot-scope="scope">
-                    <el-button size="small" type="success" @click="mod(scope.row)">编辑</el-button>
-                    <el-popconfirm
-                            title="确定删除吗？"
-                            @confirm="del(scope.row.id)"
-                            style="margin-left: 5px;"
-                    >
-                        <el-button slot="reference" size="small" type="danger" >删除</el-button>
-                    </el-popconfirm>
-                </template>
-            </el-table-column>
-        </el-table>
+      <el-table :data="tableData"
+                :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
+                border
+      >
+        <el-table-column prop="id" label="ID" width="60">
+        </el-table-column>
+        <el-table-column prop="no" label="账号" width="180">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="180">
+        </el-table-column>
+        <el-table-column prop="age" label="年龄" width="80">
+        </el-table-column>
+        <el-table-column prop="sex" label="性别" width="80">
+          <template slot-scope="scope">
+            <el-tag
+                :type="scope.row.sex === 1 ? 'primary' : 'success'"
+                disable-transitions>{{scope.row.sex === 1 ? '男' : '女'}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="roleId" label="角色" width="120">
+          <template slot-scope="scope">
+            <el-tag
+                :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : (scope.row.roleId === 2 ? 'warning' : 'success'))"
+                disable-transitions>{{scope.row.roleId === 0 ? '经理' :
+                (scope.row.roleId === 1 ? '仓库管理员' :
+                    (scope.row.roleId === 2 ? '售货员' :
+                        (scope.row.roleId === 3 ? '批发客户' : '零售客户')))}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="phone" label="电话" width="180">
+        </el-table-column>
+        <el-table-column prop="operate" label="操作">
+          <template slot-scope="scope">
+            <el-button size="small" type="success" @click="mod(scope.row)">编辑</el-button>
+            <el-popconfirm
+                title="确定删除吗？"
+                @confirm="del(scope.row.id)"
+                style="margin-left: 5px;"
+            >
+              <el-button slot="reference" size="small" type="danger" >删除</el-button>
+            </el-popconfirm>
+            <el-button type="warning" style="margin-left: 5px;" @click="sta(scope.row)">统计</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
         <el-pagination style="text-align:right"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
@@ -71,7 +71,7 @@
         </el-pagination>
 
         <el-dialog
-                title="提示"
+                title="管理员管理"
                 :visible.sync="centerDialogVisible"
                 width="30%"
                 center>
@@ -108,12 +108,42 @@
                         <el-input v-model="form.phone"></el-input>
                     </el-col>
                 </el-form-item>
+              <el-form-item label="身份">
+                <el-radio-group v-model="form.roleId">
+                  <el-radio label="1">仓库管理员</el-radio>
+                  <el-radio label="2">售货员</el-radio>
+                </el-radio-group>
+              </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="save">确 定</el-button>
   </span>
         </el-dialog>
+
+      <el-dialog
+          title="营业额统计"
+          :visible.sync="staDialogVisible"
+          width="30%"
+          center>
+
+        <el-form ref="form" :rules="rules" :model="form1" label-width="80px">
+
+          <el-form-item label="销售业绩">
+            <el-col :span="20">
+              <el-input v-model="form1.score"
+              :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="staDialogVisible = false">关 闭</el-button>
+  </span>
+      </el-dialog>
+
+
     </div>
 </template>
 
@@ -158,7 +188,18 @@
                         label: '女'
                     }
                 ],
+                roleId:'',
+                roleIds:[
+                  {
+                    value: '1',
+                    label: '仓库管理员'
+                  }, {
+                    value: '2',
+                    label: '售货员'
+                  }
+                ],
                 centerDialogVisible:false,
+                staDialogVisible:false,
                 form:{
                     id:'',
                     no:'',
@@ -169,6 +210,9 @@
                     sex:'0',
                     roleId:'1'
                 },
+              form1:{
+                score:''
+              },
                 rules: {
                     no: [
                         {required: true, message: '请输入账号', trigger: 'blur'},
@@ -229,7 +273,7 @@
                     this.form.id = row.id
                     this.form.no = row.no
                     this.form.name = row.name
-                    this.form.password = ''
+                    this.form.password = row.password
                     this.form.age = row.age +''
                     this.form.sex = row.sex +''
                     this.form.phone = row.phone
@@ -243,6 +287,20 @@
                     this.resetForm()
                 })
 
+            },
+            sta(row){
+              /*this.$axios.post(this.$httpUrl+'/record/pos',this.form1).then(res=>res.data).then(res=>{
+                console.log(res)
+                this.form2.profit=res;
+              })*/
+              this.$axios.post(this.$httpUrl+'/record/sta', {id:row.id}).then(res=>res.data).then(res=>{
+                              console.log(res)
+                              this.form1.score=res;
+                            })
+              this.staDialogVisible=true
+              /*this.$nextTick(()=>{
+                this.form1.score = row.id
+              })*/
             },
             doSave(){
                 this.$axios.post(this.$httpUrl+'/user/save',this.form).then(res=>res.data).then(res=>{

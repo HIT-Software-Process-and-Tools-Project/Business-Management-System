@@ -8,11 +8,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
 import com.wms.entity.Goods;
+import com.wms.entity.Record;
+import com.wms.mapper.GoodsMapper;
+import com.wms.mapper.RecordMapper;
 import com.wms.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -28,6 +33,8 @@ public class GoodsController {
 
    @Autowired
     private GoodsService goodsService;
+    @Resource
+    private GoodsMapper goodsMapper;
     //新增
     @PostMapping("/save")
     public Result save(@RequestBody Goods goods){
@@ -37,6 +44,42 @@ public class GoodsController {
     @PostMapping("/update")
     public Result update(@RequestBody Goods goods){
         return goodsService.updateById(goods)?Result.suc():Result.fail();
+    }
+    @PostMapping("/save1")
+    public Result save1(@RequestBody Goods goods){
+        LambdaQueryWrapper<Goods> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(Goods::getName,goods.getName());
+        lambdaQueryWrapper.eq(Goods::getStorage,goods.getStorage());
+        List<Goods> muList = goodsMapper.selectList(lambdaQueryWrapper);
+        LambdaQueryWrapper<Goods> Wrapper = new LambdaQueryWrapper();
+        Wrapper.eq(Goods::getId,goods.getId());
+        List<Goods> yuanList = goodsMapper.selectList(Wrapper);
+        Goods yuan=yuanList.get(0);
+        System.out.println("进入调库");
+        if(muList.size()!=0){
+            System.out.println("有目标");
+            Goods mu=muList.get(0);
+            Integer muCount=goods.getCount();
+            Integer yuanCount = yuan.getCount()-muCount;
+            System.out.println("初始原"+yuan.getCount());
+            System.out.println("更改原"+yuanCount);
+            System.out.println("初始目的"+mu.getCount());
+            muCount=mu.getCount()+muCount;
+            System.out.println("更改目的"+muCount);
+            mu.setCount(muCount);
+            yuan.setCount(yuanCount);
+            goodsService.updateById(yuan);
+            return goodsService.updateById(mu)?Result.suc():Result.fail();
+
+        }
+        else {
+            System.out.println("无目标");
+            Integer yuanCount = yuan.getCount()-goods.getCount();
+            yuan.setCount(yuanCount);
+            goodsService.updateById(yuan);
+            return goodsService.save(goods)?Result.suc():Result.fail();
+        }
+
     }
     //删除
     @GetMapping("/del")
