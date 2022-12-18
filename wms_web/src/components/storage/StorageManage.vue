@@ -31,9 +31,11 @@
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
               highlight-current-row
+              show-summary
+              :summary-method="getSummaries"
               @current-change="selectCurrentChange"
     >
-      <el-table-column prop="id" label="ID" width="60">
+      <el-table-column prop="id" sortable label="ID" width="60">
       </el-table-column>
       <el-table-column prop="name" label="物品名" width="100">
       </el-table-column>
@@ -45,7 +47,7 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注">
       </el-table-column>
-      <el-table-column prop="operate" label="操作" v-if="user.roleId!=2">
+      <el-table-column fixed="right" prop="operate" label="操作" v-if="user.roleId!=2" width="200">
         <template slot-scope="scope">
           <el-button size="small" type="success" @click="mod1(scope.row)">货品调度</el-button>
           <!--          <el-popconfirm
@@ -101,7 +103,7 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-col :span="20">
-            <el-input type="textarea" v-model="form.remark"></el-input>
+            <el-input v-model="form.remark"></el-input>
           </el-col>
         </el-form-item>
       </el-form>
@@ -180,9 +182,14 @@
             <el-input v-model="form1.count"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <el-form-item label="折扣" prop="remark">
           <el-col :span="20">
-            <el-input type="textarea" v-model="form1.remark"></el-input>
+            <el-input v-model="form1.remark"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="赠送数量" prop="count">
+          <el-col :span="20">
+            <el-input v-model="form2.num"></el-input>
           </el-col>
         </el-form-item>
       </el-form>
@@ -241,12 +248,15 @@ export default {
         username:'',
         userid:'',
         adminId:'',
-        remark:'',
+        remark:'1',
         action:'1',
         state:'',
         iswholesale:'',
         totalprice:'',
         profit:''
+      },
+      form2:{
+        num:'0'
       },
       rules1: {
         count: [
@@ -306,6 +316,38 @@ export default {
     },
     resetInForm(){
       this.$refs.form1.resetFields();
+    },
+    getSummaries(param) {
+      const { columns, data } = param;//这里可以看出，自定义函数会传入每一列，以及数据
+      const sums = [];
+      columns.forEach((column, index) => {//遍历每一列
+        if (index === 0) {
+          sums[index] = "合计";//第一列显示 合计
+          return;
+        }
+        if (index == 4) {
+          const values = data.map(item =>//遍历每一行数据，得到相应列的所有数据形成一个新数组
+              Number(item[column.property])
+          );
+          if (!values.every(value => isNaN(value))) {//这里是遍历得到的每一列的值，然后进行计算
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] = sums[index]+"（个）";//可以在合计后的值后面加上相应的单位
+          } else {
+            sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
+          }
+        } else {
+          sums[index] = "N/A";//其他列显示这个自定义内容
+        }
+      });
+
+      return sums;//最后返回合计行的数据
     },
     del(id){
       console.log(id)
@@ -457,6 +499,7 @@ export default {
 
     },
     doInGoods(){
+      this.form1.remark=this.form2.num+this.form1.remark
       this.$axios.post(this.$httpUrl+'/record/save',this.form1).then(res=>res.data).then(res=>{
         console.log(res)
         if(res.code==200){

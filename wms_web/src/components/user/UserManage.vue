@@ -15,16 +15,17 @@
             <el-button type="success" @click="resetParam">重置</el-button>
 
             <el-button type="primary" style="margin-left: 5px;" @click="add">新增</el-button>
+            <el-button type="warning" style="margin-left: 5px;" @click="cusSta">总资金统计</el-button>
         </div>
         <el-table :data="tableData"
                   :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
                   border
         >
-            <el-table-column prop="id" label="ID" width="60">
+            <el-table-column prop="id" sortable label="ID" width="60">
             </el-table-column>
-            <el-table-column prop="no" label="账号" width="180">
+            <el-table-column prop="no" label="账号" width="150">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="180">
+            <el-table-column prop="name" label="姓名" width="150">
             </el-table-column>
             <el-table-column prop="age" label="年龄" width="80">
             </el-table-column>
@@ -45,9 +46,13 @@
                               (scope.row.roleId === 3 ? '批发客户' : '零售客户')))}}</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="phone" label="电话" width="180">
+            <el-table-column prop="phone" label="电话" width="120">
             </el-table-column>
-            <el-table-column prop="operate" label="操作">
+            <el-table-column prop="vip" label="会员积分" width="100">
+            </el-table-column>
+            <el-table-column prop="deposit" label="存款" width="100">
+            </el-table-column>
+            <el-table-column fixed="right" prop="operate" label="操作" width="140">
                 <template slot-scope="scope">
                     <el-button size="small" type="success" @click="mod(scope.row)">编辑</el-button>
                     <el-popconfirm
@@ -57,10 +62,13 @@
                     >
                         <el-button slot="reference" size="small" type="danger" >删除</el-button>
                     </el-popconfirm>
+                    <el-button size="small" type="warning" style="margin-left: 5px;" @click="cusSta1(scope.row)">统计</el-button>
+<!--                    <el-button size="small" type="primary" style="margin-left: 5px;" @click="pro(scope.row)">兑换</el-button>-->
+                    <el-button size="small" type="primary" plain style="margin-left: 5px;" @click="dep(scope.row)">会员管理</el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination style="margin-left: 5px;"
+        <el-pagination style="text-align:right"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageNum"
@@ -71,7 +79,7 @@
         </el-pagination>
 
         <el-dialog
-                title="提示"
+                title="客户管理"
                 :visible.sync="centerDialogVisible"
                 width="30%"
                 center>
@@ -120,6 +128,97 @@
     <el-button type="primary" @click="save">确 定</el-button>
   </span>
         </el-dialog>
+
+      <el-dialog
+          title="客户资金统计"
+          :visible.sync="cusStaDialogVisible"
+          width="30%"
+          center>
+
+        <el-form ref="form" :rules="rules" :model="form1" label-width="100px">
+
+          <el-form-item label="客户已付款">
+            <el-col :span="20">
+              <el-input v-model="form1.paid"
+                        :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="客户未付款">
+            <el-col :span="20">
+              <el-input v-model="form1.unpaid"
+                        :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="cusStaDialogVisible = false">关 闭</el-button>
+  </span>
+      </el-dialog>
+
+      <el-dialog
+          title="积分兑换"
+          :visible.sync="proDialogVisible"
+          width="30%"
+          center>
+
+        <el-form ref="form" :rules="rules" :model="form1" label-width="100px">
+
+          <el-form-item label="可兑换积分">
+            <el-col :span="20">
+              <el-input v-model="form.vip"
+                        :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="兑换比例">
+            <el-col :span="20">
+              <el-input v-model="form2.proportion"></el-input>
+            </el-col>
+          </el-form-item>
+
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="proDialogVisible = false">关 闭</el-button>
+          <el-button type="success" @click="exchange">兑 换</el-button>
+  </span>
+      </el-dialog>
+
+      <el-dialog
+          title="存款"
+          :visible.sync="depDialogVisible"
+          width="30%"
+          center>
+
+        <el-form ref="form" :rules="rules" :model="form1" label-width="100px">
+
+          <el-form-item label="当前存款">
+            <el-col :span="20">
+              <el-input v-model="form.deposit"
+                        :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="本次存款数目">
+            <el-col :span="20">
+              <el-input v-model="form2.deposit"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="存款积分比">
+            <el-col :span="20">
+              <el-input v-model="form2.proportion"></el-input>
+            </el-col>
+          </el-form-item>
+
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="depDialogVisible = false">关 闭</el-button>
+          <el-button type="primary" @click="exchange1">存 款</el-button>
+          <el-button size="small" type="success" style="margin-left: 5px;" @click="pro">兑换</el-button>
+  </span>
+      </el-dialog>
+
     </div>
 </template>
 
@@ -165,6 +264,9 @@
                     }
                 ],
                 centerDialogVisible:false,
+                cusStaDialogVisible:false,
+                proDialogVisible:false,
+                depDialogVisible:false,
                 form:{
                     id:'',
                     no:'',
@@ -172,8 +274,18 @@
                     password:'',
                     age:'',
                     phone:'',
-                    sex:'0',
-                    roleId:''
+                    sex:'1',
+                    roleId:'3',
+                    vip:'',
+                    deposit:''
+                },
+                form1:{
+                  paid:'',
+                  unpaid:''
+                },
+                form2:{
+                  proportion:'10',
+                  deposit:''
                 },
                 rules: {
                     no: [
@@ -239,11 +351,14 @@
                     this.form.age = row.age +''
                     this.form.sex = row.sex +''
                     this.form.phone = row.phone
-                    this.form.roleId = row.roleId
+                    this.form.roleId = row.roleId+''
+                    this.form.vip=row.vip
+                    this.form.deposit=row.deposit
                 })
             },
             add(){
-
+                this.form.vip=0
+                this.form.deposit=0
                 this.centerDialogVisible = true
                 this.$nextTick(()=>{
                     this.resetForm()
@@ -307,6 +422,62 @@
                 });
 
             },
+           cusSta(){
+             this.$axios.post(this.$httpUrl+'/record/paid').then(res=>res.data).then(res=>{
+               console.log(res)
+               this.form1.paid=res;
+             })
+             this.$axios.post(this.$httpUrl+'/record/unpaid').then(res=>res.data).then(res=>{
+               console.log(res)
+               this.form1.unpaid=res;
+             })
+             this.cusStaDialogVisible=true
+           },
+          cusSta1(row){
+            this.$axios.post(this.$httpUrl+'/record/paid1',{id:row.id}).then(res=>res.data).then(res=>{
+              console.log(res)
+              this.form1.paid=res;
+            })
+            this.$axios.post(this.$httpUrl+'/record/unpaid1',{id:row.id}).then(res=>res.data).then(res=>{
+              console.log(res)
+              this.form1.unpaid=res;
+            })
+            this.cusStaDialogVisible=true
+          },
+          pro(){
+
+              this.proDialogVisible=true
+
+          },
+          dep(row){
+
+            this.depDialogVisible=true
+            this.$nextTick(()=>{
+              //赋值到表单
+              this.form.id = row.id
+              this.form.no = row.no
+              this.form.name = row.name
+              this.form.password = ''
+              this.form.age = row.age +''
+              this.form.sex = row.sex +''
+              this.form.phone = row.phone
+              this.form.roleId = row.roleId+''
+              this.form.vip=row.vip
+              this.form.deposit=row.deposit
+            })
+          },
+          exchange(){
+              this.form.deposit=1*this.form.deposit+1*this.form.vip/this.form2.proportion
+              this.form.vip = '0'
+              this.doMod()
+              this.proDialogVisible=false
+          },
+          exchange1(){
+            this.form.deposit=1*this.form.deposit+1*this.form2.deposit
+            this.form.vip=1*this.form.vip+1*this.form2.deposit/this.form2.proportion
+            this.doMod()
+            this.depDialogVisible=false
+          },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
                 this.pageNum=1

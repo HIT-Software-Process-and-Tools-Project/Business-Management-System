@@ -52,5 +52,11 @@ public class User implements Serializable {
     @TableField("isValid")
     private String isvalid;
 
+    @ApiModelProperty(value = "会员积分")
+    private String vip;
+
+    @ApiModelProperty(value = "存款")
+    private String deposit;
+
 
 }

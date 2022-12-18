@@ -1,10 +1,13 @@
 <template>
     <div class="loginBody">
+        <div class="background">
+          <img :src="imgSrc" width="100%" height="100%" alt="" />
+        </div>
         <div class="loginDiv">
             <div class="login-content">
-                <h1 class="login-title">用户登录</h1>
-                <el-form :model="loginForm" label-width="100px"
-                         :rules="rules" ref="loginForm">
+                <h1 class="login-title">通用批发零售业务管理系统</h1>
+              <h2 class="login-title">用户登录</h2>
+              <el-form :model="loginForm" label-width="100px" :rules="rules" ref="loginForm">
                     <el-form-item label="账号" prop="no">
                         <el-input style="width: 200px" type="text" v-model="loginForm.no"
                                   autocomplete="off" size="small"></el-input>
@@ -22,6 +25,9 @@
     </div>
 </template>
 
+<style>
+
+</style>
 
 <script>
     export default {
@@ -40,7 +46,8 @@
                     password: [
                         { required: true, message: '请输密码', trigger: 'blur' }
                     ],
-                }
+                },
+                imgSrc:require('../assets/bg.png')
             }
         },
         methods:{
@@ -83,7 +90,9 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: #B3C0D1;
+        /*z-index:1;*/
+        /*position: absolute;*/
+        /*background-color: #B3C0D1;*/
     }
     .loginDiv {
         position: absolute;
@@ -93,9 +102,8 @@
         margin-left: -250px;
         width: 450px;
         height: 330px;
-        background: #fff;
+        background: #fafafa;
         border-radius: 5%;
-
     }
     .login-title {
         margin: 20px 0;
@@ -107,5 +115,12 @@
         position: absolute;
         top: 25px;
         left: 25px;
+    }
+    .background{
+      width:100%;
+      height:100%;  /**宽高100%是为了图片铺满屏幕 */
+      z-index:-1;
+      opacity: 0.7;
+      position: absolute;
     }
 </style>

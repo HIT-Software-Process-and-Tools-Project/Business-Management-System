@@ -19,17 +19,26 @@
             :value="item.id">
         </el-option>
       </el-select>
+      <el-select v-model="state" placeholder="请选择订单类型" style="margin-left: 5px;">
+        <el-option
+            v-for="item in stateData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+      </el-select>
 
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
-
-
     </div>
+
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
+              show-summary
+              :summary-method="getSummaries"
     >
-      <el-table-column prop="id" label="订单ID" width="60">
+      <el-table-column prop="id" sortable label="订单ID" width="90">
       </el-table-column>
       <el-table-column prop="iswholesale" label="订单类型" width="90">
         <template slot-scope="scope">
@@ -54,11 +63,11 @@
       </el-table-column>
       <el-table-column prop="totalprice" label="总金额" width="70">
       </el-table-column>
-      <el-table-column prop="profit" label="毛利润" width="60">
+      <el-table-column prop="profit" sortable label="毛利润" width="90">
       </el-table-column>
-      <el-table-column prop="createtime" label="创建订单时间" width="160">
+      <el-table-column prop="createtime" sortable label="创建订单时间" width="160">
       </el-table-column>
-      <el-table-column prop="remark" label="备注" width="60">
+      <el-table-column prop="remark" label="备注" width="200">
       </el-table-column>
       <el-table-column fixed="right" prop="state" label="状态"  width="75">
         <template slot-scope="scope">
@@ -69,12 +78,13 @@
                   (scope.row.state == 2 ? '已收货' :
                       (scope.row.state == 3 ? '已退货' :'已进货')))}}</el-tag>
         </template>
+
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="330">
         <template  slot-scope="scope">
 <!--          <el-button type="info" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">详情</el-button>-->
           <el-button type="primary" style="margin-left: 5px;" size="small" @click="mod(scope.row,0)">审核</el-button>
-          <el-button type="success" style="margin-left: 5px;" size="small" @click="mod(scope.row,1)">收款</el-button>
+          <el-button type="success" style="margin-left: 5px;" size="small" @click="rec(scope.row,1)">收款</el-button>
           <el-button type="warning" style="margin-left: 5px;" size="small" @click="mod(scope.row,2)">退货</el-button>
           <!--                <el-button type="text" size="small" @click="del(scope.row.id)">删除</el-button>-->
           <el-button slot="reference" size="small" type="danger" style="margin-left: 5px;" @click="del(scope.row,0)">删除</el-button>
@@ -88,8 +98,8 @@
 
         </template>
       </el-table-column>
-
     </el-table>
+
     <el-pagination style="text-align:right"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -99,6 +109,35 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
     </el-pagination>
+
+    <el-dialog
+        title="收银台"
+        :visible.sync="recDialogVisible"
+        width="30%"
+        center>
+
+      <el-form ref="form" :rules="rules" :model="form1" label-width="100px">
+
+        <el-form-item label="客户应付款">
+          <el-col :span="20">
+            <el-input v-model="form.totalprice"
+                      :disabled="true"></el-input>
+          </el-col>
+        </el-form-item>
+<!--        <el-form-item label="客户实付款">
+          <el-col :span="20">
+            <el-input v-model="form1.totalprice"></el-input>
+          </el-col>
+        </el-form-item>-->
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="recDialogVisible = false">关 闭</el-button>
+          <el-button type="success" @click=doRec>付 款</el-button>
+          <el-button type="danger" @click=unRec>赊 账</el-button>
+  </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -111,6 +150,7 @@ export default {
       user : JSON.parse(sessionStorage.getItem('CurUser')),
       storageData:[],
       goodstypeData:[],
+      stateData:[],
       tableData: [],
       pageSize:10,
       pageNum:1,
@@ -119,6 +159,7 @@ export default {
       storage:'',
       goodstype:'',
       centerDialogVisible:false,
+      recDialogVisible:false,
       form:{
         id:'',
         iswholesale:'',
@@ -129,8 +170,12 @@ export default {
         remark:'',
         state:'',
         totalprice:'',
-        profit:''
+        profit:'',
+        userid:''
       },
+      form1:{
+        totalprice: ''
+      }
     }
   },
   methods:{
@@ -176,6 +221,90 @@ export default {
         })
       }
     },
+    rec(row,i){
+      if(row.state!=i){
+        this.$message({
+          message: '不在该销售阶段',
+          type: 'error'
+        });
+      }
+      else{
+        //this.centerDialogVisible = true
+        this.recDialogVisible=true
+        this.$nextTick(()=>{
+          this.form.id=row.id;
+          this.form.name=row.name;
+          this.form.storge=row.storge;
+          this.form.goodstype=row.goodstype;
+          this.form.count=row.count;
+          this.form.remark=row.remark;
+          this.form.state=row.state;
+          this.form.totalprice=row.totalprice;
+          this.form.profit=row.profit;
+          this.form.userid=row.userid
+        })
+
+      }
+    },
+    doRec(){
+      this.form.remark=this.form.totalprice/10
+      this.form.state+=1;
+      this.$nextTick(()=>{
+        this.$axios.post(this.$httpUrl+'/record/update1',this.form).then(res=>res.data).then(res=>{
+          console.log(res)
+          if(res.code==200){
+            this.$message({
+              message: '操作成功！',
+              type: 'success'
+            });
+            this.loadPost()
+            this.resetForm()
+          }else{
+            this.$message({
+              message: '操作失败！',
+              type: 'error'
+            });
+          }
+        })
+      })
+      this.recDialogVisible = false
+    },
+    unRec(){
+      this.form.remark=this.form.totalprice
+      if(this.form.userid==null){
+        this.form.state=-1;
+        this.$message({
+          message: '当前用户非会员，不可赊账！',
+          type: 'error'
+        });
+        this.loadPost()
+        this.resetForm()
+      }
+      else{
+        this.form.state+=1;
+        this.$nextTick(()=>{
+          this.$axios.post(this.$httpUrl+'/record/update2',this.form).then(res=>res.data).then(res=>{
+            console.log(res)
+            if(res.code==200){
+              this.$message({
+                message: '操作成功！',
+                type: 'success'
+              });
+              this.loadPost()
+              this.resetForm()
+            }else{
+              this.$message({
+                message: '操作失败！',
+                type: 'error'
+              });
+            }
+          })
+        })
+      }
+
+      this.recDialogVisible = false
+    },
+
     del(id,i){
       console.log(id,i)
       if(id.state!=i){
@@ -194,7 +323,7 @@ export default {
         }).catch(() => {
           this.$message({type: 'info',message: '已取消删除' });
         })
-        this.$axios.get(this.$httpUrl+'/record/del?id='+id).then(res=>res.data).then(res=>{
+        this.$axios.get(this.$httpUrl+'/record/del?id='+id.id).then(res=>res.data).then(res=>{
           console.log(res)
           if(res.code==200){
 
@@ -215,6 +344,41 @@ export default {
 
     },
 
+
+    getSummaries(param) {
+      const { columns, data } = param;//这里可以看出，自定义函数会传入每一列，以及数据
+      const sums = [];
+      columns.forEach((column, index) => {//遍历每一列
+        if (index === 0) {
+          sums[index] = "合计";//第一列显示 合计
+          return;
+        }
+        if (index >= 4 && index <= 5) {
+          const values = data.map(item =>//遍历每一行数据，得到相应列的所有数据形成一个新数组
+              Number(item[column.property])
+          );
+          if (!values.every(value => isNaN(value))) {//这里是遍历得到的每一列的值，然后进行计算
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] = "¥ "+sums[index];//可以在合计后的值后面加上相应的单位
+          } else {
+            sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
+          }
+        } else {
+          sums[index] = "N/A";//其他列显示这个自定义内容
+        }
+      });
+
+      return sums;//最后返回合计行的数据
+    },
+
+
     formatStorage(row){
       let temp =  this.storageData.find(item=>{
         return item.id == row.storage
@@ -225,6 +389,13 @@ export default {
     formatGoodstype(row){
       let temp =  this.goodstypeData.find(item=>{
         return item.id == row.goodstype
+      })
+
+      return temp && temp.name
+    },
+    formatState(row){
+      let temp =  this.stateData.find(item=>{
+        return item.id == row.state
       })
 
       return temp && temp.name
@@ -247,6 +418,7 @@ export default {
       this.name=''
       this.storage=''
       this.goodstype=''
+      this.state=''
     },
     loadStorage(){
       this.$axios.get(this.$httpUrl+'/storage/list').then(res=>res.data).then(res=>{
@@ -264,6 +436,17 @@ export default {
         console.log(res)
         if(res.code==200){
           this.goodstypeData=res.data
+        }else{
+          alert('获取数据失败')
+        }
+
+      })
+    },
+    loadState(){
+      this.$axios.get(this.$httpUrl+'/state/list').then(res=>res.data).then(res=>{
+        console.log(res)
+        if(res.code==200){
+          this.stateData=res.data
         }else{
           alert('获取数据失败')
         }
@@ -296,6 +479,7 @@ export default {
   beforeMount() {
     this.loadStorage()
     this.loadGoodstype()
+    this.loadState()
     this.loadPost()
 
   },
