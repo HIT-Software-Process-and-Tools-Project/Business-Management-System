@@ -31,7 +31,8 @@
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
               highlight-current-row
-
+              show-summary
+              :summary-method="getSummaries"
               @current-change="selectCurrentChange"
     >
       <el-table-column prop="id" sortable label="ID" width="60">
@@ -473,6 +474,38 @@ export default {
         }
 
       })
+    },
+    getSummaries(param) {
+      const { columns, data } = param;//这里可以看出，自定义函数会传入每一列，以及数据
+      const sums = [];
+      columns.forEach((column, index) => {//遍历每一列
+        if (index === 0) {
+          sums[index] = "合计";//第一列显示 合计
+          return;
+        }
+        if (index == 7 ) {
+          const values = data.map(item =>//遍历每一行数据，得到相应列的所有数据形成一个新数组
+              Number(item[column.property])
+          );
+          if (!values.every(value => isNaN(value))) {//这里是遍历得到的每一列的值，然后进行计算
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] = sums[index]+"（个）";//可以在合计后的值后面加上相应的单位
+          } else {
+            sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
+          }
+        } else {
+          sums[index] = "N/A";//其他列显示这个自定义内容
+        }
+      });
+
+      return sums;//最后返回合计行的数据
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);

@@ -30,13 +30,13 @@
 
       <el-button type="primary" style="margin-left: 5px;" @click="loadPost">查询</el-button>
       <el-button type="success" style="margin-left: 5px;" @click="resetParam">重置</el-button>
-
-
     </div>
+
     <el-table :data="tableData"
               :header-cell-style="{ background: '#f2f5fc', color: '#555555' }"
               border
               show-summary
+              :summary-method="getSummaries"
     >
       <el-table-column prop="id" sortable label="订单ID" width="90">
       </el-table-column>
@@ -98,8 +98,8 @@
 
         </template>
       </el-table-column>
-
     </el-table>
+
     <el-pagination style="text-align:right"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -223,6 +223,41 @@ export default {
       }
 
     },
+
+
+    getSummaries(param) {
+      const { columns, data } = param;//这里可以看出，自定义函数会传入每一列，以及数据
+      const sums = [];
+      columns.forEach((column, index) => {//遍历每一列
+        if (index === 0) {
+          sums[index] = "合计";//第一列显示 合计
+          return;
+        }
+        if (index >= 4 && index <= 5) {
+          const values = data.map(item =>//遍历每一行数据，得到相应列的所有数据形成一个新数组
+              Number(item[column.property])
+          );
+          if (!values.every(value => isNaN(value))) {//这里是遍历得到的每一列的值，然后进行计算
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] = "¥ "+sums[index];//可以在合计后的值后面加上相应的单位
+          } else {
+            sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
+          }
+        } else {
+          sums[index] = "N/A";//其他列显示这个自定义内容
+        }
+      });
+
+      return sums;//最后返回合计行的数据
+    },
+
 
     formatStorage(row){
       let temp =  this.storageData.find(item=>{
