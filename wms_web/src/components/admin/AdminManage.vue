@@ -45,7 +45,7 @@
                               (scope.row.roleId === 3 ? '批发客户' : '零售客户')))}}</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="phone" label="电话" width="180">
+            <el-table-column prop="phone" label="电话" width="120">
             </el-table-column>
             <el-table-column fixed="right" prop="operate" label="操作" width="140">
                 <template slot-scope="scope">
