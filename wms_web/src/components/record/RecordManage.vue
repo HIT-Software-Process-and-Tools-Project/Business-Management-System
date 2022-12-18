@@ -21,10 +21,10 @@
       </el-select>
       <el-select v-model="state" placeholder="请选择订单类型" style="margin-left: 5px;">
         <el-option
-            v-for="item in stateData"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
+            v-for="item in states"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
         </el-option>
       </el-select>
 
@@ -59,7 +59,7 @@
       </el-table-column>
 <!--      <el-table-column prop="username" label="申请人" width="90">-->
 <!--      </el-table-column>-->
-      <el-table-column prop="count" label="数量" width="50">
+      <el-table-column prop="count" label="数量" width="90">
       </el-table-column>
       <el-table-column prop="totalprice" label="总金额" width="70">
       </el-table-column>
@@ -151,6 +151,24 @@ export default {
       storageData:[],
       goodstypeData:[],
       stateData:[],
+      states:[
+        {
+          value: '0',
+          label: '已保存'
+        }, {
+          value: '1',
+          label: '已审核'
+        },{
+          value: '2',
+          label: '已收款'
+        },{
+          value: '3',
+          label: '已退货'
+        },{
+          value: '4',
+          label: '已进货'
+        }
+      ],
       tableData: [],
       pageSize:10,
       pageNum:1,
@@ -158,6 +176,7 @@ export default {
       name:'',
       storage:'',
       goodstype:'',
+      state:'',
       centerDialogVisible:false,
       recDialogVisible:false,
       form:{
@@ -248,7 +267,7 @@ export default {
     },
     doRec(){
       this.form.remark=this.form.totalprice/10
-      this.form.state+=1;
+      this.form.state=2;
       this.$nextTick(()=>{
         this.$axios.post(this.$httpUrl+'/record/update1',this.form).then(res=>res.data).then(res=>{
           console.log(res)
@@ -272,7 +291,7 @@ export default {
     unRec(){
       this.form.remark=this.form.totalprice
       if(this.form.userid==null){
-        this.form.state=-1;
+        this.form.state=1;
         this.$message({
           message: '当前用户非会员，不可赊账！',
           type: 'error'
@@ -281,7 +300,7 @@ export default {
         this.resetForm()
       }
       else{
-        this.form.state+=1;
+        this.form.state=2;
         this.$nextTick(()=>{
           this.$axios.post(this.$httpUrl+'/record/update2',this.form).then(res=>res.data).then(res=>{
             console.log(res)
@@ -301,10 +320,8 @@ export default {
           })
         })
       }
-
       this.recDialogVisible = false
     },
-
     del(id,i){
       console.log(id,i)
       if(id.state!=i){
@@ -343,8 +360,6 @@ export default {
       }
 
     },
-
-
     getSummaries(param) {
       const { columns, data } = param;//这里可以看出，自定义函数会传入每一列，以及数据
       const sums = [];
@@ -353,7 +368,7 @@ export default {
           sums[index] = "合计";//第一列显示 合计
           return;
         }
-        if (index >= 4 && index <= 5) {
+        if (index >= 5 && index <= 7) {
           const values = data.map(item =>//遍历每一行数据，得到相应列的所有数据形成一个新数组
               Number(item[column.property])
           );
@@ -366,19 +381,21 @@ export default {
                 return prev;
               }
             }, 0);
-            sums[index] = "¥ "+sums[index];//可以在合计后的值后面加上相应的单位
+            if(index==5){
+              sums[index] = sums[index]+"（个）";
+            }
+            else{
+              sums[index] = "¥ "+sums[index];//可以在合计后的值后面加上相应的单位
+            }
           } else {
             sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
           }
         } else {
-          sums[index] = "N/A";//其他列显示这个自定义内容
+          sums[index] = "";//其他列显示这个自定义内容
         }
       });
-
       return sums;//最后返回合计行的数据
     },
-
-
     formatStorage(row){
       let temp =  this.storageData.find(item=>{
         return item.id == row.storage
@@ -446,7 +463,7 @@ export default {
       this.$axios.get(this.$httpUrl+'/state/list').then(res=>res.data).then(res=>{
         console.log(res)
         if(res.code==200){
-          this.stateData=res.data
+          this.states=res.data
         }else{
           alert('获取数据失败')
         }
@@ -462,7 +479,8 @@ export default {
           goodstype:this.goodstype+'',
           storage:this.storage+'',
           roleId:this.user.roleId+'',
-          userId:this.user.id+''
+          userId:this.user.id+'',
+          state:this.state+'',
         }
       }).then(res=>res.data).then(res=>{
         console.log(res)

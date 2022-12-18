@@ -3,7 +3,7 @@
             background-color="#262138"
             text-color="#fff"
             active-text-color="#1aa3ff"
-            style="height: 100%;"
+            style="height: 100%;margin:0"
             default-active="/Home"
             :collapse="isCollapse"
             :collapse-transition="false"
@@ -18,8 +18,6 @@
             <i :class="item.menuicon"></i>
             <span slot="title">{{item.menuname}}</span>
         </el-menu-item>
-
-
     </el-menu>
 </template>
 

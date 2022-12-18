@@ -144,7 +144,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button @click="diaoduDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="save">确 定</el-button>
+    <el-button type="primary" @click="save1">确 定</el-button>
   </span>
     </el-dialog>
 
@@ -237,6 +237,10 @@ export default {
         id:'',
         name:'',
         storage:'',
+        purchaseprice:'',
+        wholesaleprice:'',
+        retailprice:'',
+        brand:'',
         goodstype:'',
         count:'',
         remark:''
@@ -343,7 +347,7 @@ export default {
             sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
           }
         } else {
-          sums[index] = "N/A";//其他列显示这个自定义内容
+          sums[index] = "";//其他列显示这个自定义内容
         }
       });
 
@@ -377,6 +381,10 @@ export default {
         this.form.id = row.id
         this.form.name = row.name
         this.form.storage = row.storage
+        this.form.purchaseprice=row.purchaseprice
+        this.form.retailprice=row.retailprice
+        this.form.wholesaleprice=row.wholesaleprice
+        this.form.brand=row.brand
         this.form.goodstype = row.goodstype
         this.form.count = row.count
         this.form.remark = row.remark
@@ -389,6 +397,10 @@ export default {
         this.form.id = row.id
         this.form.name = row.name
         this.form.storage = row.storage
+        this.form.purchaseprice=row.purchaseprice
+        this.form.retailprice=row.retailprice
+        this.form.wholesaleprice=row.wholesaleprice
+        this.form.brand=row.brand
         this.form.goodstype = row.goodstype
         this.form.count = row.count
         this.form.remark = row.remark
@@ -482,6 +494,28 @@ export default {
         }
 
       })
+    },
+    save1(){
+      this.$axios.post(this.$httpUrl+'/goods/save1',this.form).then(res=>res.data).then(res=>{
+        console.log(res)
+        if(res.code==200){
+
+          this.$message({
+            message: '操作成功！',
+            type: 'success'
+          });
+          this.centerDialogVisible = false
+          this.loadPost()
+          this. resetForm()
+        }else{
+          this.$message({
+            message: '操作失败！',
+            type: 'error'
+          });
+        }
+
+      })
+      this.diaoduDialogVisible=false;
     },
     save(){
       this.$refs.form.validate((valid) => {
