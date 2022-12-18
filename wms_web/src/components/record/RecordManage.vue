@@ -59,7 +59,7 @@
       </el-table-column>
 <!--      <el-table-column prop="username" label="申请人" width="90">-->
 <!--      </el-table-column>-->
-      <el-table-column prop="count" label="数量" width="50">
+      <el-table-column prop="count" label="数量" width="90">
       </el-table-column>
       <el-table-column prop="totalprice" label="总金额" width="70">
       </el-table-column>
@@ -353,7 +353,7 @@ export default {
           sums[index] = "合计";//第一列显示 合计
           return;
         }
-        if (index >= 4 && index <= 5) {
+        if (index >= 5 && index <= 7) {
           const values = data.map(item =>//遍历每一行数据，得到相应列的所有数据形成一个新数组
               Number(item[column.property])
           );
@@ -366,12 +366,17 @@ export default {
                 return prev;
               }
             }, 0);
-            sums[index] = "¥ "+sums[index];//可以在合计后的值后面加上相应的单位
+            if(index==5){
+              sums[index] = sums[index]+"（个）";
+            }
+            else{
+              sums[index] = "¥ "+sums[index];//可以在合计后的值后面加上相应的单位
+            }
           } else {
             sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
           }
         } else {
-          sums[index] = "N/A";//其他列显示这个自定义内容
+          sums[index] = "";//其他列显示这个自定义内容
         }
       });
 

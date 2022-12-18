@@ -60,7 +60,7 @@
     </div>
 
     <div style="text-align: center">
-        <el-button size="large" type="success" @click="mod()">编辑用户信息</el-button>
+        <el-button size="large" type="success" @click="mod()">编辑个人信息</el-button>
 
       <el-dialog
           title="提示"

@@ -343,7 +343,7 @@ export default {
             sums[index] = "";//如果列的值有一项不是数字，就显示这个自定义内容
           }
         } else {
-          sums[index] = "N/A";//其他列显示这个自定义内容
+          sums[index] = "";//其他列显示这个自定义内容
         }
       });
 
