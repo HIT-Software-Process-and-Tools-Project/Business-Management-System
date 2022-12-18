@@ -320,10 +320,8 @@ export default {
           })
         })
       }
-
       this.recDialogVisible = false
     },
-
     del(id,i){
       console.log(id,i)
       if(id.state!=i){
@@ -362,8 +360,6 @@ export default {
       }
 
     },
-
-
     getSummaries(param) {
       const { columns, data } = param;//这里可以看出，自定义函数会传入每一列，以及数据
       const sums = [];
@@ -398,11 +394,8 @@ export default {
           sums[index] = "";//其他列显示这个自定义内容
         }
       });
-
       return sums;//最后返回合计行的数据
     },
-
-
     formatStorage(row){
       let temp =  this.storageData.find(item=>{
         return item.id == row.storage

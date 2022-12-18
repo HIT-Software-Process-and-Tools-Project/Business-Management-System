@@ -3,12 +3,14 @@
 <mapper namespace="com.wms.mapper.RecordMapper">
 
     <select id="pageCC" resultType="com.wms.entity.RecordRes">
-         select a.*,b.name goodsname,c.name storagename,d.name goodstypename,
+         select a.*,b.name goodsname,c.name storagename,d.name goodstypename,e.name statename,
         (select u.name from user u where u.id=a.userid)username,
         (select u.name from user u where u.id=a.admin_id)adminname
-         from record a ,goods b,storage c,goodsType d
+         from record a ,goods b,storage c,goodsType d,state e
         /* where a.goods=b.id
-         and b.storage=c.id and b.goodsType=d.id*/
+         and b.storage=c.id
+         and b.goodsType=d.id
+           and a.state=e.id*/
         ${ew.customSqlSegment}
     </select>
     <!-- 通用查询映射结果 -->
@@ -24,7 +26,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, goods, userId, admin_id, count, createtime, remark
+        id, goods, userId, admin_id, count, state, createtime, remark
     </sql>
 
 </mapper>
