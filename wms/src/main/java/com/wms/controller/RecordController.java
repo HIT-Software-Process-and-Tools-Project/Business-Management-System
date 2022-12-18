@@ -63,13 +63,14 @@ public class RecordController {
         String roleId = (String)param.get("roleId");
         String userId = (String)param.get("userId");
         String state = (String)param.get("state");
+        System.out.println(state);
 
         Page<Record> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
 
         QueryWrapper<Record> queryWrapper = new QueryWrapper();
-        queryWrapper.apply(" a.goods=b.id and b.storage=c.id and b.goodsType=d.id ");
+        queryWrapper.apply(" a.goods=b.id and b.storage=c.id and b.goodsType=d.id");
 
         /*if("2".equals(roleId)){
             // queryWrapper.eq(Record::getUserid,userId);
@@ -84,6 +85,10 @@ public class RecordController {
         }
         if(StringUtils.isNotBlank(storage) && !"null".equals(storage)){
             queryWrapper.eq("c.id",storage);
+        }
+        if(StringUtils.isNotBlank(state) && !"null".equals(state)){
+            System.out.println(state);
+            queryWrapper.eq("a.state",state);
         }
 
         IPage result = recordService.pageCC(page,queryWrapper);
