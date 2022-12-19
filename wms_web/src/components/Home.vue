@@ -2,7 +2,11 @@
   <div>
     <div style="text-align: center;background-color: #f1f1f3;height: 100%;padding: 0px;margin: 0px;">
       <h1 style="font-size: 30px;">欢迎使用本系统！</h1>
+
       <el-descriptions title="个人中心" :column="2" size="40" border>
+        <template #extra>
+          <el-button size="large" type="success" @click="mod()">编辑个人信息</el-button>
+        </template>
         <el-descriptions-item>
           <template slot="label">
             <i class="el-icon-s-custom"></i>
@@ -56,12 +60,11 @@
           <el-progress type="circle" :percentage=form1.counts color="#E6A23C"/>
         </div>
       </template>
+
       <DateUtils></DateUtils>
     </div>
 
     <div style="text-align: center">
-        <el-button size="large" type="success" @click="mod()">编辑个人信息</el-button>
-
       <el-dialog
           title="提示"
           :visible.sync="centerDialogVisible"
