@@ -7,6 +7,9 @@ import axios from "axios";
 import VueRouter from 'vue-router';
 import router from './router';
 import store from './store';
+import echarts from 'echarts'
+
+Vue.prototype.$echarts = echarts
 Vue.prototype.$axios=axios;
 Vue.prototype.$httpUrl='http://localhost:8090'
 Vue.config.productionTip = false

@@ -105,10 +105,13 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="save">确 定</el-button>
-  </span>
+          <el-button @click="centerDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="save">确 定</el-button>
+        </span>
       </el-dialog>
+    </div>
+    <div class="Echarts">
+      <div id="main" style="width: 600px;height: 400px;"></div>
     </div>
   </div>
 </template>
@@ -116,6 +119,9 @@
 
 <script>
 import DateUtils from "./DateUtils";
+
+
+
 
 export default {
   name: "Home",
@@ -327,8 +333,6 @@ export default {
     this.init()
     this.loadPost()
   },
-
-
 }
 </script>
 
