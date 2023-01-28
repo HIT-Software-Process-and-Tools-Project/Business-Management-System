@@ -39,3 +39,15 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
 6. 运行整个项目（第3步的全部配置都跑起来），这里试着在navicat等上面查看自己的连接下是否多了一个名为`demo`的数据库，方便自己后续开发时使用。
 
    ![image](https://user-images.githubusercontent.com/78716774/201687832-516b1173-8048-4f54-a3d9-4be96f472aaf.png)
+   
+------
+
+![image](https://user-images.githubusercontent.com/78716774/215258750-0f555a14-d7b0-41b0-8f10-2d5bee8041c2.png)
+![image](https://user-images.githubusercontent.com/78716774/215258755-a0844e75-bea7-4b56-9130-2913995901a4.png)
+![image](https://user-images.githubusercontent.com/78716774/215258889-021a373a-a240-432d-8d7c-e7b74bfbd327.png)
+![image](https://user-images.githubusercontent.com/78716774/215258875-b2773390-3eee-4ecf-81ea-36e9d23c9d4f.png)
+![image](https://user-images.githubusercontent.com/78716774/215258769-f6ee15cb-c7e2-4416-b1b8-c0193eebe7f1.png)
+![image](https://user-images.githubusercontent.com/78716774/215258897-f2d58db9-7a0d-4506-b215-7a34a8439c85.png)
+![image](https://user-images.githubusercontent.com/78716774/215258774-d3424c8d-9050-40b2-bee3-1830c01de219.png)
+![image](https://user-images.githubusercontent.com/78716774/215258780-d6d9a42e-b581-4317-87a8-e45030500389.png)
+![image](https://user-images.githubusercontent.com/78716774/215258788-c17d8309-72a5-4a27-aad0-e019263170be.png)
