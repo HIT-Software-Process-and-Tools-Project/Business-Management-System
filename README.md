@@ -43,7 +43,7 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
    ![image](https://user-images.githubusercontent.com/78716774/201687832-516b1173-8048-4f54-a3d9-4be96f472aaf.png)
 
 ------
-Some user interfaces:
+## 2 Some user interfaces:
 
 <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230128175002.png" alt="微信图片_20230128175002"  />
 
