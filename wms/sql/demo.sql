@@ -3,15 +3,15 @@
 
  Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 80031 (8.0.31)
+ Source Server Version : 80032 (8.0.32)
  Source Host           : localhost:3306
  Source Schema         : demo
 
  Target Server Type    : MySQL
- Target Server Version : 80031 (8.0.31)
+ Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 19/11/2022 23:19:18
+ Date: 25/05/2023 18:16:20
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `brand`  (
   `phone` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '电话',
   `remark` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of brand
@@ -150,8 +150,24 @@ INSERT INTO `record` VALUES (10, 354784676, 1, 1, 5, 1, 1, 0, '2022-11-19 14:36:
 INSERT INTO `record` VALUES (11, 792386765, 1, 1, 5, 1, 5, 2, '2022-11-19 15:16:31', '', NULL, NULL);
 INSERT INTO `record` VALUES (12, 739658546, 1, 1, 5, 1, 1, 3, '2022-11-19 15:59:31', '', NULL, NULL);
 INSERT INTO `record` VALUES (13, 739658546, 1, 4, 5, 1, 4, 1, '2022-11-19 16:56:39', '', NULL, NULL);
-INSERT INTO `record` VALUES (14, NULL, 0, 1, 4, 1, 2, 2, '2022-11-19 22:39:43', '', 6.00, 4.00);
-INSERT INTO `record` VALUES (15, NULL, 0, 3, 4, 1, 4, 2, '2022-11-19 22:39:53', '', 30.00, 14.00);
+INSERT INTO `record` VALUES (14, 124131522, 0, 1, 4, 1, 2, 2, '2022-11-19 22:39:43', '', 6.00, 4.00);
+INSERT INTO `record` VALUES (15, 123412342, 0, 3, 4, 1, 4, 2, '2022-11-19 22:39:53', '', 30.00, 14.00);
+
+-- ----------------------------
+-- Table structure for state
+-- ----------------------------
+DROP TABLE IF EXISTS `state`;
+CREATE TABLE `state`  (
+  `id` int NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of state
+-- ----------------------------
+INSERT INTO `state` VALUES (1, '1', NULL);
 
 -- ----------------------------
 -- Table structure for storage
@@ -183,24 +199,26 @@ CREATE TABLE `user`  (
   `sex` int NULL DEFAULT NULL COMMENT '性别',
   `phone` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '电话',
   `role_id` int NULL DEFAULT NULL COMMENT '⻆⾊ 0经理，1仓库管理员，2售货员，3批发客户，4零售客户',
-  `isValid` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT 'Y' COMMENT '是否有效，Y有效，其他⽆效',
+  `vip` int NULL DEFAULT NULL COMMENT '会员积分',
+  `isValid` varchar(4) CHARACTER SET ucs2 COLLATE ucs2_general_ci NULL DEFAULT NULL COMMENT '是否有效，Y有效，其他⽆效',
+  `deposit` int NULL DEFAULT NULL COMMENT '存款',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'sa', '经理', '18', 56, 1, '13123453456', 0, 'Y');
-INSERT INTO `user` VALUES (2, 'user_a', '仓库管理员', '123', 30, 1, '13342345667', 1, 'Y');
-INSERT INTO `user` VALUES (3, '1234', '售货员', '1111', 23, 2, '13345567833', 2, 'Y');
-INSERT INTO `user` VALUES (4, 'sdfg', '零售用户', '1234', 23, 1, '13333333333', 4, 'Y');
-INSERT INTO `user` VALUES (5, 'asd', 'Alice', '1234', 34, 2, '14444444444', 3, 'Y');
-INSERT INTO `user` VALUES (6, 'werstg', 'Cedar', '3457', 45, 1, '13567845678', 3, 'Y');
-INSERT INTO `user` VALUES (7, 'sdrg', 'Venu', '2345', 56, 1, '12345655343', 3, 'Y');
-INSERT INTO `user` VALUES (8, 'sdfa', 'Muiden', '4567', 36, 1, '15675784544', 3, 'Y');
-INSERT INTO `user` VALUES (9, 'sdf', 'Salachi', '34533', 52, 1, '15789045675', 3, 'Y');
-INSERT INTO `user` VALUES (10, 'sdfh', 'Krikavova', '2352', 62, 2, '14567455555', 3, 'Y');
-INSERT INTO `user` VALUES (11, 'fgyj', 'Dena', '3461', 42, 2, '14679656755', 3, 'Y');
-INSERT INTO `user` VALUES (12, 'fgjh', 'Balinho', '4567', 19, 1, '15637456455', 3, 'Y');
+INSERT INTO `user` VALUES (1, 'sa', '经理', '18', 56, 1, '13123453456', 0, 23, 'Y', NULL);
+INSERT INTO `user` VALUES (2, 'user_a', '仓库管理员', '123', 30, 1, '13342345667', 1, 0, 'Y', 456);
+INSERT INTO `user` VALUES (3, '1234', '售货员', '1111', 23, 2, '13345567833', 2, 1, 'Y', 34);
+INSERT INTO `user` VALUES (4, 'sdfg', '零售用户', '1234', 23, 1, '13333333333', 4, 1, 'Y', 456);
+INSERT INTO `user` VALUES (5, 'asd', 'Alice', '1234', 34, 2, '14444444444', 3, 1, 'Y', 435);
+INSERT INTO `user` VALUES (6, 'werstg', 'Cedar', '3457', 45, 1, '13567845678', 3, 11, 'Y', 345);
+INSERT INTO `user` VALUES (7, 'sdrg', 'Venu', '2345', 56, 1, '12345655343', 3, 34, 'Y', 345);
+INSERT INTO `user` VALUES (8, 'sdfa', 'Muiden', '4567', 36, 1, '15675784544', 3, 1, 'Y', 34);
+INSERT INTO `user` VALUES (9, 'sdf', 'Salachi', '34533', 52, 1, '15789045675', 3, 56, 'Y', 23);
+INSERT INTO `user` VALUES (10, 'sdfh', 'Krikavova', '2352', 62, 2, '14567455555', 3, 6, 'Y', NULL);
+INSERT INTO `user` VALUES (11, 'fgyj', 'Dena', '3461', 42, 2, '14679656755', 3, 5, 'Y', NULL);
+INSERT INTO `user` VALUES (12, 'fgjh', 'Balinho', '4567', 19, 1, '15637456455', 3, 4, 'Y', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
