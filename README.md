@@ -13,8 +13,8 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
 
 3. Configure `Run/Debug Configurations`.
    <div align=center>
-      <img src="https://user-images.githubusercontent.com/78716774/201572357-73c7b3f5-57c0-4979-b7dc-d7dfa94279f9.png" width="485"/>
-      <img src="https://user-images.githubusercontent.com/78716774/201572369-5085c95e-f8c6-484b-8950-6068e08ad84e.png" width="485"/>
+      <img src="https://user-images.githubusercontent.com/78716774/201572357-73c7b3f5-57c0-4979-b7dc-d7dfa94279f9.png" width="700"/>
+      <img src="https://user-images.githubusercontent.com/78716774/201572369-5085c95e-f8c6-484b-8950-6068e08ad84e.png" width="700"/>
    </div>
 4. Open `cmd` as an administrator and run following commands.
 
@@ -57,27 +57,27 @@ General Wholesale and Retail Business Management System - Project of HIT Softwar
       <img src="https://user-images.githubusercontent.com/78716774/201687832-516b1173-8048-4f54-a3d9-4be96f472aaf.png" width="600"/>
    </div>
 
-## 2 Interfaces:
-   <div align=center>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230128175002.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750021.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750028.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750022.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750023.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750024.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750025.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750026.png" width="500"/>
-      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750027.png" width="500"/>
-   </div>
-   
-## 3 Acknowledgements
+## 2 Acknowledgements
 
 Most ideas of our project are mainly from [RuoYi](https://github.com/YunaiV/ruoyi-vue-pro). Thanks for [RuoYi](https://github.com/YunaiV/ruoyi-vue-pro) and other open source repos sincerely.
 
-## 4 License
+## 3 License
 
 The source code is released under [GPLv3](https://www.gnu.org/licenses/) license.
 
-## 5 Maintenance
+## 4 Maintenance
 
 Feel free to contact us if you have any question.
+
+## 5 Interfaces:
+   <div align=center>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230128175002.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750021.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750028.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750022.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750023.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750024.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750025.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750026.png" width="700"/>
+      <img src="https://cdn.jsdelivr.net/gh/pandalandala/imgbed@main/2023/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202301281750027.png" width="700"/>
+   </div>
