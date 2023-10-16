@@ -63,7 +63,7 @@ Most ideas of our project are mainly from [RuoYi](https://github.com/YunaiV/ruoy
 
 ## 3 License
 
-The source code is released under [GPLv3](https://www.gnu.org/licenses/) license.
+The source code is released under [MIT](https://opensource.org/license/mit/) license.
 
 ## 4 Maintenance
 
